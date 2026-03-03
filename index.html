@@ -5,54 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Asset Recovery | Expert Blockchain Forensics</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root { --neon-blue: #00f3ff; --neon-purple: #bc13fe; --dark-bg: #050508; --card-bg: rgba(18, 18, 26, 0.6); }
-        body { font-family: 'Inter', sans-serif; background-color: var(--dark-bg); color: #ffffff; overflow-x: hidden; }
-        .gradient-text { background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .grid-bg { background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; }
+        body { background-color: #050508; color: white; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="antialiased grid-bg">
-    <nav class="fixed w-full z-50 py-4 bg-black/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <span class="text-xl font-bold">Digital<span class="gradient-text">Asset</span>Recovery</span>
-            <button onclick="openModal()" class="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2 rounded-full font-semibold text-sm">Consultation</button>
-        </div>
-    </nav>
+<body class="p-6 md:p-12">
 
-    <section class="min-h-screen flex items-center justify-center pt-20 text-center px-6">
-        <div>
-            <h1 class="text-5xl font-bold mb-6">Lost Crypto?<br><span class="gradient-text italic">We Get It Back.</span></h1>
-            <p class="text-gray-400 mb-10">Expert blockchain forensics and wallet recovery.</p>
-            <button onclick="openModal()" class="bg-white text-black px-8 py-4 rounded-full font-bold">Start Recovery</button>
-        </div>
-    </section>
+    <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+            Digital Asset Recovery
+        </h1>
+        <p class="text-gray-400 text-lg mb-12">Professional Forensic Investigation & Blockchain Fund Recovery</p>
 
-    <footer class="py-12 border-t border-white/5 text-center">
-        <p class="mb-2">Email: <a href="mailto:recoveryspecialistdigitalasset@gmail.com" class="text-cyan-400">recoveryspecialistdigitalasset@gmail.com</a></p>
-        <p class="text-gray-600 text-sm">© 2026 Digital Asset Recovery. All Rights Reserved.</p>
-    </footer>
+        <div class="glass-card p-8 rounded-2xl text-left">
+            <h2 class="text-2xl font-semibold mb-6">Initial Case Assessment</h2>
+            
+            <form action="https://formsubmit.co/recoveryspecialistdigitalasset@gmail.com" method="POST">
+                <input type="hidden" name="_next" value="https://digitalassetrecovery.github.io/recovery-site/">
+                <input type="hidden" name="_captcha" value="false">
 
-    <div id="consultation-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/90" onclick="closeModal()"></div>
-        <div class="glass-card w-full max-w-lg rounded-3xl p-8 relative z-10">
-            <h3 class="text-2xl font-bold mb-6 text-white">Initial Assessment</h3>
-            <form action="https://formsubmit.co/recoveryspecialistdigitalasset@gmail.com" method="POST" class="space-y-4">
-                <input type="text" name="name" placeholder="Name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
-                <input type="email" name="email" placeholder="Your Email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
-                <textarea name="message" placeholder="Describe your case..." rows="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white"></textarea>
-                <button type="submit" class="w-full bg-cyan-500 py-4 rounded-xl font-bold">Send to Specialist</button>
+                <div class="space-y-4">
+                    <input type="text" name="name" placeholder="Full Name" required 
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition">
+                    
+                    <input type="email" name="email" placeholder="Contact Email" required 
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition">
+                    
+                    <textarea name="case_details" placeholder="Describe the loss (Platform, Amount, Date...)" required 
+                              class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 transition"></textarea>
+                    
+                    <button type="submit" 
+                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg shadow-cyan-500/20">
+                        Submit Case for Review
+                    </button>
+                </div>
             </form>
         </div>
+
+        <p class="mt-8 text-sm text-gray-500">Security Verified & Encrypted Transmission</p>
     </div>
 
-    <script>
-        lucide.createIcons();
-        function openModal() { document.getElementById('consultation-modal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('consultation-modal').classList.add('hidden'); }
-    </script>
 </body>
 </html>
