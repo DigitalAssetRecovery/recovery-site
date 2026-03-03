@@ -8,6 +8,7 @@
     <style>
         body { background-color: #050508; color: white; font-family: 'Inter', sans-serif; }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        #success-message { display: none; }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -18,50 +19,53 @@
         </h1>
         <p class="text-gray-400 text-lg mb-12">Professional Forensic Investigation & Blockchain Fund Recovery</p>
 
-        <div class="glass-card p-8 rounded-2xl text-left shadow-2xl">
+        <div id="form-container" class="glass-card p-8 rounded-2xl text-left shadow-2xl">
             <h2 class="text-2xl font-semibold mb-2">Initial Case Assessment</h2>
-            <p class="text-gray-400 mb-6 text-sm">Please provide details. A specialist will review your case within 24 hours.</p>
+            <p class="text-gray-400 mb-6 text-sm">A specialist will review your case within 24 hours.</p>
             
             <form action="https://formsubmit.co/recoveryspecialistdigitalasset@gmail.com" method="POST">
-                
-                <input type="hidden" name="_next" value="https://digitalassetrecovery.github.io/recovery-site/">
-                <input type="hidden" name="_subject" value="URGENT: New Asset Recovery Case Submission">
                 <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="NEW CASE: Recovery Request">
                 <input type="hidden" name="_template" value="table">
 
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-cyan-500 mb-1">Full Name</label>
-                        <input type="text" name="name" placeholder="John Doe" required 
-                               class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
-                    </div>
+                    <input type="text" name="name" placeholder="Full Name" required 
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
                     
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-cyan-500 mb-1">Contact Email</label>
-                        <input type="email" name="email" placeholder="email@example.com" required 
-                               class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
-                    </div>
+                    <input type="email" name="email" placeholder="Contact Email" required 
+                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
                     
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-cyan-500 mb-1">Case Details</label>
-                        <textarea name="case_details" placeholder="Describe the platform, amount lost, and date of incident..." required 
-                                  class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 transition text-white"></textarea>
-                    </div>
+                    <textarea name="case_details" placeholder="Describe the loss (Platform, Amount, Date...)" required 
+                              class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 transition text-white"></textarea>
                     
                     <button type="submit" 
-                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg shadow-cyan-500/20 uppercase tracking-widest text-sm">
+                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg shadow-cyan-500/20 uppercase tracking-widest">
                         Submit Case for Review
                     </button>
                 </div>
             </form>
         </div>
 
+        <div id="success-box" class="hidden glass-card p-12 rounded-2xl border-cyan-500/50">
+            <div class="text-cyan-500 text-6xl mb-4">✓</div>
+            <h2 class="text-3xl font-bold mb-2">Submission Received</h2>
+            <p class="text-gray-400">Your case has been logged. Check your email for a response from our forensics team shortly.</p>
+            <button onclick="window.location.reload()" class="mt-8 text-cyan-500 underline text-sm">Submit another case</button>
+        </div>
+
         <div class="mt-8 flex items-center justify-center gap-4 text-gray-500 text-xs">
             <span>● 256-bit Encryption</span>
             <span>● Secured Blockchain Portal</span>
-            <span>● Privacy Guaranteed</span>
         </div>
     </div>
+
+    <script>
+        const form = document.querySelector('form');
+        form.onsubmit = function() {
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('success-box').classList.remove('hidden');
+        };
+    </script>
 
 </body>
 </html>
