@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Asset Recovery | Blockchain Forensics</title>
+    <title>Digital Asset Recovery | Client Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050508; color: white; font-family: 'Inter', sans-serif; }
@@ -13,36 +13,57 @@
 <body class="p-6 md:p-12">
 
     <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-            Digital Asset Recovery
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent italic tracking-tight">
+            DIGITAL ASSET RECOVERY
         </h1>
+        <div class="flex items-center justify-center gap-2 mb-12 uppercase tracking-[0.3em] text-[10px] text-white/50">
+            <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+            Forensic Server Status: Online
+        </div>
 
-        <div id="form-container" class="glass-card p-8 rounded-2xl text-left shadow-2xl">
-            <h2 class="text-2xl font-semibold mb-2">Initial Case Assessment</h2>
-            <p class="text-gray-400 mb-6 text-sm">Please provide details. We review all cases within 24 hours.</p>
+        <div id="form-container" class="glass-card p-8 rounded-2xl text-left shadow-2xl border-t border-white/10">
+            <h2 class="text-2xl font-semibold mb-2 text-white">Secure Case Portal</h2>
+            <p class="text-gray-400 mb-8 text-sm">Authenticate using your assigned Forensic Case ID.</p>
             
             <form id="recovery-form" action="https://formsubmit.co/ajax/recoveryspecialistdigitalasset@gmail.com" method="POST">
-                <div class="space-y-4">
-                    <input type="text" name="name" placeholder="Full Name" required 
-                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
-                    <input type="email" name="email" placeholder="Contact Email" required 
-                           class="w-full bg-black/50 border border-white/10 p-4 rounded-lg focus:outline-none focus:border-cyan-500 transition text-white">
-                    <textarea name="case_details" placeholder="Describe the incident..." required 
-                              class="w-full bg-black/50 border border-white/10 p-4 rounded-lg h-32 focus:outline-none focus:border-cyan-500 transition text-white"></textarea>
+                <div class="space-y-6">
+                    
+                    <div>
+                        <label class="text-[10px] text-cyan-500 font-black uppercase mb-2 block tracking-widest italic">Authorized Case ID</label>
+                        <input type="text" id="user_case_id" name="case_id" placeholder="Enter ID (e.g. DAR-2026-8942)" required 
+                               class="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:outline-none focus:border-cyan-500 text-white font-mono placeholder:text-gray-700">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] text-gray-500 font-black uppercase mb-2 block tracking-widest italic">Registered Full Name</label>
+                        <input type="text" name="name" placeholder="As it appears on your file" required 
+                               class="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:outline-none focus:border-cyan-500 text-white placeholder:text-gray-700">
+                    </div>
                     
                     <button type="submit" id="submit-btn"
-                            class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg uppercase tracking-widest">
-                        Submit Case for Review
+                            class="w-full bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold py-5 rounded-xl hover:from-cyan-500 hover:to-blue-600 transition shadow-lg uppercase tracking-[0.2em] text-xs">
+                        Authenticate & Sync File
                     </button>
                 </div>
             </form>
         </div>
 
-        <div id="success-box" class="hidden glass-card p-12 rounded-2xl border-cyan-500/50">
-            <div class="text-cyan-500 text-6xl mb-4">✓</div>
-            <h2 class="text-3xl font-bold mb-2">Submission Received</h2>
-            <p class="text-gray-400">Your case has been logged. Our forensics team will contact you shortly.</p>
-            <button onclick="window.location.reload()" class="mt-8 text-cyan-500 underline text-sm">Submit another case</button>
+        <div id="success-box" class="hidden glass-card p-12 rounded-2xl border-cyan-500/40 shadow-[0_0_50px_rgba(6,182,212,0.1)]">
+            <div class="flex justify-center mb-6">
+                <div class="h-16 w-16 rounded-full bg-cyan-500/10 border border-cyan-500/50 flex items-center justify-center text-cyan-500 text-3xl">
+                    ✓
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 uppercase text-white font-mono">ACCESS GRANTED</h2>
+            <p class="text-gray-400 mb-6 italic text-sm">Case <span id="display_id" class="text-cyan-400 font-bold"></span> has been synced with the recovery node.</p>
+            
+            <div class="p-5 bg-white/5 border border-white/10 rounded-xl text-left border-l-4 border-l-cyan-500 text-[11px] text-gray-300 leading-relaxed italic">
+                <span class="text-cyan-500 font-bold mr-2 not-italic">[SYSTEM LOG]</span> Credentials verified. Forensic validation complete. Final retrieval authorization pending. Please check your registered email for final settlement and payment instructions.
+            </div>
+        </div>
+
+        <div class="mt-12 text-gray-700 text-[9px] tracking-[0.4em] uppercase font-bold">
+            Encryption: 256-Bit AES | Protocol: Secure Forensic Node
         </div>
     </div>
 
@@ -50,11 +71,13 @@
         const form = document.getElementById('recovery-form');
         const formContainer = document.getElementById('form-container');
         const successBox = document.getElementById('success-box');
+        const displayId = document.getElementById('display_id');
+        const caseInput = document.getElementById('user_case_id');
         const btn = document.getElementById('submit-btn');
 
         form.onsubmit = async (e) => {
             e.preventDefault();
-            btn.innerText = "SENDING...";
+            btn.innerText = "AUTHENTICATING...";
             btn.disabled = true;
 
             const formData = new FormData(form);
@@ -65,11 +88,13 @@
             });
 
             if (response.ok) {
+                // This makes the ID they type show up on the success screen!
+                displayId.innerText = "#" + caseInput.value.toUpperCase(); 
                 formContainer.classList.add('hidden');
                 successBox.classList.remove('hidden');
             } else {
-                alert("Error sending. Please try again.");
-                btn.innerText = "Submit Case for Review";
+                alert("Auth Error. Please check your connection.");
+                btn.innerText = "Authenticate & Sync File";
                 btn.disabled = false;
             }
         };
