@@ -7,27 +7,44 @@
     <style>
         :root { --primary: #1a2a6c; --secondary: #3498db; --success: #28a745; --danger: #d9534f; --gray: #f4f7f6; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        
+        /* Card & Containers */
         .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; border-top: 6px solid var(--primary); }
         .dashboard-container { display: none; max-width: 850px; width: 95%; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-top: 6px solid var(--primary); margin: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        
+        /* Inputs & Buttons */
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .btn-outline { width: 100%; padding: 10px; background: none; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; margin-top: 15px; font-size: 0.9em; }
+        
+        /* Dashboard Header */
         header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         .status-badge { background: var(--success); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
-        .case-info { background: #f8f9fa; padding: 15px; border-left: 5px solid var(--secondary); margin-bottom: 20px; text-align: left; }
-        .progress-bar-bg { background: #e9ecef; border-radius: 25px; height: 28px; width: 100%; position: relative; overflow: hidden; }
+        
+        /* Case Details */
+        .case-info { background: #f8f9fa; padding: 15px; border-left: 5px solid var(--secondary); margin-bottom: 20px; text-align: left; line-height: 1.6; }
+        
+        /* Progress Bar */
+        .progress-bar-bg { background: #e9ecef; border-radius: 25px; height: 28px; width: 100%; position: relative; overflow: hidden; margin-top: 10px; }
         .progress-fill { background: linear-gradient(90deg, var(--primary), var(--success)); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
+        
+        /* Financial Grid */
         .financials { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
         .stat { padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: left; }
+        .stat-label { font-size: 0.75em; color: #7f8c8d; text-transform: uppercase; font-weight: bold; }
+        .stat-value { font-size: 1.25em; font-weight: bold; color: #2c3e50; margin-top: 5px; }
+
+        /* Timer Highlight */
+        #displayDeadline { color: var(--danger); font-family: monospace; }
+
+        /* Wallet & History */
         .wallet-box { background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
         .wallet-address { font-family: monospace; background: rgba(255,255,255,0.1); padding: 10px; display: block; margin: 10px 0; word-break: break-all; border: 1px dashed #fff; }
         
-        /* Table Styles */
-        .history-section { margin-top: 30px; text-align: left; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
-        th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid #eee; color: #7f8c8d; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9em; text-align: left; }
+        th { border-bottom: 2px solid #eee; padding: 10px; color: #7f8c8d; }
         td { padding: 12px 10px; border-bottom: 1px solid #eee; }
-        .check-mark { color: var(--success); font-weight: bold; }
+        .verified { color: var(--success); font-weight: bold; }
 
         #fileCaseForm { display: none; }
     </style>
@@ -42,13 +59,13 @@
             <input type="password" id="pin" placeholder="Secure Access PIN">
             <button class="btn-primary" onclick="checkLogin()">Verify & Enter Portal</button>
             <button class="btn-outline" onclick="showFileForm()">New User? File a Case</button>
-            <p id="errorMsg" style="color:red; display:none; margin-top:10px;">Access Denied.</p>
+            <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-weight:bold;">Access Denied: Case ID not found.</p>
         </div>
         <div id="fileCaseForm">
-            <h3 style="color: var(--primary);">Registration</h3>
-            <input type="text" placeholder="Full Legal Name">
-            <input type="email" placeholder="Contact Email">
-            <button class="btn-primary" onclick="submitCase()">Submit for Review</button>
+            <h3>Register New Case</h3>
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email Address">
+            <button class="btn-primary" onclick="submitCase()">Submit Case</button>
             <button class="btn-outline" onclick="showLogin()">Back to Login</button>
         </div>
     </div>
@@ -60,19 +77,21 @@
         </header>
 
         <div class="case-info">
-            <strong>FILE:</strong> <span id="displayID"></span> | <strong>BENEFICIARY:</strong> <span id="displayName"></span>
+            <strong>CASE ID:</strong> <span id="displayID"></span><br>
+            <strong>BENEFICIARY:</strong> <span id="displayName"></span><br>
+            <strong>STATUS:</strong> ADMINISTRATIVE OVERRIDE ACTIVE
         </div>
 
         <div style="text-align:left;">
-            <label><strong>Progress: <span id="displayPct"></span></strong></label>
+            <label><strong>Recovery Progress: <span id="displayPct"></span></strong></label>
             <div class="progress-bar-bg"><div id="progressFill" class="progress-fill"></div></div>
         </div>
 
         <div class="financials">
-            <div class="stat"><strong>Total Fee:</strong><br><span id="displayTotal"></span></div>
-            <div class="stat" style="color: var(--success);"><strong>Paid:</strong><br><span id="displayPaid"></span></div>
-            <div class="stat" style="color: var(--danger);"><strong>Balance:</strong><br><span id="displayBal"></span></div>
-            <div class="stat"><strong>Deadline:</strong><br><span id="displayDeadline"></span></div>
+            <div class="stat"><div class="stat-label">Total Required Fee</div><div class="stat-value" id="displayTotal"></div></div>
+            <div class="stat"><div class="stat-label">Verified Paid</div><div class="stat-value" id="displayPaid" style="color: var(--success);"></div></div>
+            <div class="stat"><div class="stat-label">Remaining Balance</div><div class="stat-value" id="displayBal" style="color: var(--danger);"></div></div>
+            <div class="stat"><div class="stat-label">Manual Node Deadline</div><div class="stat-value" id="displayDeadline"></div></div>
         </div>
 
         <div class="wallet-box">
@@ -80,23 +99,16 @@
             <span class="wallet-address" id="displayWallet"></span>
         </div>
 
-        <div class="history-section">
-            <h4 style="margin-bottom: 5px; color: var(--primary);">Recent Activity Log</h4>
+        <div style="margin-top: 30px; text-align: left;">
+            <h4 style="color: var(--primary); margin-bottom: 5px;">Transaction History</h4>
             <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead>
                 <tbody>
                     <tr>
                         <td>March 05, 2026</td>
-                        <td>Initial Partial Signal</td>
+                        <td>Initial Deposit</td>
                         <td>$1,000.00</td>
-                        <td class="check-mark">✔ Verified</td>
+                        <td class="verified">✔ Confirmed</td>
                     </tr>
                 </tbody>
             </table>
@@ -104,6 +116,9 @@
     </div>
 
     <script>
+        // Set the 12-day deadline (Ends March 17, 2026)
+        const countdownDate = new Date(2026, 2, 17, 23, 59, 59).getTime();
+
         const users = {
             "dar-2026-8942": {
                 pin: "2026",
@@ -112,7 +127,6 @@
                 total: "$7,250.00",
                 paid: "$1,000.00",
                 bal: "$6,250.00",
-                deadline: "12 Days Remaining",
                 wallet: "bc1qf0k7qfvm2f4vpg0ae3sfgyywtygue6sm370g6n"
             }
         };
@@ -131,16 +145,31 @@
                 document.getElementById('displayTotal').innerText = user.total;
                 document.getElementById('displayPaid').innerText = user.paid;
                 document.getElementById('displayBal').innerText = user.bal;
-                document.getElementById('displayDeadline').innerText = user.deadline;
                 document.getElementById('displayWallet').innerText = user.wallet;
+                
+                startTimer();
                 setTimeout(() => { document.getElementById('progressFill').style.width = user.pct; }, 100);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
         }
+
+        function startTimer() {
+            const timer = document.getElementById('displayDeadline');
+            setInterval(function() {
+                const now = new Date().getTime();
+                const dist = countdownDate - now;
+                const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((dist % (1000 * 60)) / 1000);
+                timer.innerHTML = d + "d " + h + "h " + m + "m " + s + "s";
+            }, 1000);
+        }
+
         function showFileForm() { document.getElementById('loginInputs').style.display = 'none'; document.getElementById('fileCaseForm').style.display = 'block'; }
         function showLogin() { document.getElementById('fileCaseForm').style.display = 'none'; document.getElementById('loginInputs').style.display = 'block'; }
-        function submitCase() { alert("Application Received."); showLogin(); }
+        function submitCase() { alert("Application Received. Your agent will contact you shortly."); showLogin(); }
     </script>
 </body>
 </html>
