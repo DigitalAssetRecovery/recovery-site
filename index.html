@@ -7,68 +7,47 @@
     <style>
         :root { --primary: #1a2a6c; --secondary: #3498db; --success: #28a745; --danger: #d9534f; --gray: #f4f7f6; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        
-        /* Card & Containers */
         .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; border-top: 6px solid var(--primary); }
         .dashboard-container { display: none; max-width: 850px; width: 95%; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-top: 6px solid var(--primary); margin: 20px; }
-        
-        /* Inputs & Buttons */
         input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-primary:hover { background: #2c3e50; }
-        .btn-outline { width: 100%; padding: 10px; background: none; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; margin-top: 15px; font-size: 0.9em; transition: 0.3s; }
-        .btn-outline:hover { background: #f8f9fa; }
-        
-        /* Dashboard Elements */
+        .btn-outline { width: 100%; padding: 10px; background: none; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; margin-top: 15px; font-size: 0.9em; }
         header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
         .status-badge { background: var(--success); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
-        .case-info { background: #f8f9fa; padding: 15px; border-left: 5px solid var(--secondary); margin-bottom: 20px; text-align: left; line-height: 1.6; }
-        
-        /* Progress Bar */
-        .progress-section { margin: 25px 0; text-align: left; }
-        .progress-bar-bg { background: #e9ecef; border-radius: 25px; height: 28px; width: 100%; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .case-info { background: #f8f9fa; padding: 15px; border-left: 5px solid var(--secondary); margin-bottom: 20px; text-align: left; }
+        .progress-bar-bg { background: #e9ecef; border-radius: 25px; height: 28px; width: 100%; position: relative; overflow: hidden; }
         .progress-fill { background: linear-gradient(90deg, var(--primary), var(--success)); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
-        .progress-label { position: absolute; right: 15px; top: 4px; font-weight: bold; color: #2c3e50; font-size: 0.85em; }
-
-        /* Financial Grid */
         .financials { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .stat { padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: left; background: #fff; }
-        .stat-label { font-size: 0.75em; color: #7f8c8d; text-transform: uppercase; font-weight: bold; }
-        .stat-value { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-top: 5px; }
-
-        /* Wallet Box */
-        .wallet-box { background: var(--primary); color: white; padding: 25px; border-radius: 8px; margin-top: 25px; text-align: center; }
-        .wallet-address { font-family: 'Courier New', monospace; background: rgba(255,255,255,0.1); padding: 12px; display: block; margin: 15px 0; word-break: break-all; border: 1px dashed #fff; font-size: 1em; }
+        .stat { padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: left; }
+        .wallet-box { background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .wallet-address { font-family: monospace; background: rgba(255,255,255,0.1); padding: 10px; display: block; margin: 10px 0; word-break: break-all; border: 1px dashed #fff; }
         
+        /* Table Styles */
+        .history-section { margin-top: 30px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+        th { background: #f8f9fa; padding: 10px; text-align: left; border-bottom: 2px solid #eee; color: #7f8c8d; }
+        td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+        .check-mark { color: var(--success); font-weight: bold; }
+
         #fileCaseForm { display: none; }
-        #errorMsg { color: var(--danger); font-size: 0.85em; margin-top: 10px; display: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="loginGate" class="card">
-        <div style="font-weight: 800; font-size: 2em; color: var(--primary); letter-spacing: 1px;">DART</div>
-        <p style="color: #6c757d; margin-bottom: 30px;">Digital Asset Recovery Team<br><small>Secure Beneficiary Access</small></p>
-        
+        <div style="font-weight: 800; font-size: 2em; color: var(--primary);">DART</div>
+        <p style="color: #6c757d; margin-bottom: 30px;">Secure Beneficiary Access</p>
         <div id="loginInputs">
             <input type="text" id="caseID" placeholder="Case DAR Number">
             <input type="password" id="pin" placeholder="Secure Access PIN">
             <button class="btn-primary" onclick="checkLogin()">Verify & Enter Portal</button>
             <button class="btn-outline" onclick="showFileForm()">New User? File a Case</button>
-            <p id="errorMsg"></p>
+            <p id="errorMsg" style="color:red; display:none; margin-top:10px;">Access Denied.</p>
         </div>
-
         <div id="fileCaseForm">
-            <h3 style="color: var(--primary);">Case Registration</h3>
-            <p style="font-size: 0.85em; color: #7f8c8d;">Submit your details for forensic review.</p>
+            <h3 style="color: var(--primary);">Registration</h3>
             <input type="text" placeholder="Full Legal Name">
             <input type="email" placeholder="Contact Email">
-            <select>
-                <option value="">Select Service Type...</option>
-                <option>Crypto Wallet Recovery</option>
-                <option>Asset Liquidation</option>
-                <option>Exchange Dispute</option>
-            </select>
             <button class="btn-primary" onclick="submitCase()">Submit for Review</button>
             <button class="btn-outline" onclick="showLogin()">Back to Login</button>
         </div>
@@ -76,50 +55,55 @@
 
     <div id="dashboard" class="dashboard-container">
         <header>
-            <div style="font-weight: 800; color: var(--primary); font-size: 1.2em;">DART | FORENSIC TERMINAL</div>
+            <div style="font-weight: 800; color: var(--primary);">DART | FORENSIC TERMINAL</div>
             <div class="status-badge">Node Active</div>
         </header>
 
         <div class="case-info">
-            <strong>FILE REFERENCE:</strong> <span id="displayID"></span><br>
-            <strong>BENEFICIARY:</strong> <span id="displayName"></span><br>
-            <strong>SYSTEM STATUS:</strong> ADMINISTRATIVE HOLD (LEVEL 2)
+            <strong>FILE:</strong> <span id="displayID"></span> | <strong>BENEFICIARY:</strong> <span id="displayName"></span>
         </div>
 
-        <div class="progress-section">
-            <label style="font-weight: bold; color: #2c3e50;">Verification Progress: <span id="displayPct"></span></label>
-            <div class="progress-bar-bg"><div id="progressFill" class="progress-fill"></div><span class="progress-label">STAGED</span></div>
-            <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px;">*Initial signal detected. Forensic bridge node is locked for 12 days.</p>
+        <div style="text-align:left;">
+            <label><strong>Progress: <span id="displayPct"></span></strong></label>
+            <div class="progress-bar-bg"><div id="progressFill" class="progress-fill"></div></div>
         </div>
 
         <div class="financials">
-            <div class="stat">
-                <div class="stat-label">Total Required Fee</div>
-                <div class="stat-value" id="displayTotal"></div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Verified Paid</div>
-                <div class="stat-value" id="displayPaid" style="color: var(--success);"></div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Remaining Balance</div>
-                <div class="stat-value" id="displayBal" style="color: var(--danger);"></div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Settlement Window</div>
-                <div class="stat-value" id="displayDeadline" style="font-size: 1.1em;"></div>
-            </div>
+            <div class="stat"><strong>Total Fee:</strong><br><span id="displayTotal"></span></div>
+            <div class="stat" style="color: var(--success);"><strong>Paid:</strong><br><span id="displayPaid"></span></div>
+            <div class="stat" style="color: var(--danger);"><strong>Balance:</strong><br><span id="displayBal"></span></div>
+            <div class="stat"><strong>Deadline:</strong><br><span id="displayDeadline"></span></div>
         </div>
 
         <div class="wallet-box">
-            <small style="text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;">Active Settlement Node Address</small>
+            <small>SETTLEMENT NODE ADDRESS</small>
             <span class="wallet-address" id="displayWallet"></span>
-            <p style="font-size: 0.75em; opacity: 0.7;">Submit remaining increments to this node to trigger final 100% liquidation.</p>
+        </div>
+
+        <div class="history-section">
+            <h4 style="margin-bottom: 5px; color: var(--primary);">Recent Activity Log</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>March 05, 2026</td>
+                        <td>Initial Partial Signal</td>
+                        <td>$1,000.00</td>
+                        <td class="check-mark">✔ Verified</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        // MASTER DATABASE: Only IDs here will work.
         const users = {
             "dar-2026-8942": {
                 pin: "2026",
@@ -136,14 +120,11 @@
         function checkLogin() {
             const inputID = document.getElementById('caseID').value.toLowerCase().trim();
             const inputPin = document.getElementById('pin').value.trim();
-            const error = document.getElementById('errorMsg');
             const user = users[inputID];
 
             if (user && user.pin === inputPin) {
                 document.getElementById('loginGate').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-                
-                // Load Marjorie's Data
                 document.getElementById('displayID').innerText = inputID.toUpperCase();
                 document.getElementById('displayName').innerText = user.name;
                 document.getElementById('displayPct').innerText = user.pct;
@@ -152,31 +133,14 @@
                 document.getElementById('displayBal').innerText = user.bal;
                 document.getElementById('displayDeadline').innerText = user.deadline;
                 document.getElementById('displayWallet').innerText = user.wallet;
-                
-                // Animate progress bar
-                setTimeout(() => {
-                    document.getElementById('progressFill').style.width = user.pct;
-                }, 100);
+                setTimeout(() => { document.getElementById('progressFill').style.width = user.pct; }, 100);
             } else {
-                error.style.display = 'block';
-                error.innerText = "ACCESS DENIED: Credentials not found in secure registry.";
+                document.getElementById('errorMsg').style.display = 'block';
             }
         }
-
-        function showFileForm() {
-            document.getElementById('loginInputs').style.display = 'none';
-            document.getElementById('fileCaseForm').style.display = 'block';
-        }
-
-        function showLogin() {
-            document.getElementById('fileCaseForm').style.display = 'none';
-            document.getElementById('loginInputs').style.display = 'block';
-        }
-
-        function submitCase() {
-            alert("Application Logged. A Case Manager will review your forensic data and issue a DAR Number within 24 hours.");
-            showLogin();
-        }
+        function showFileForm() { document.getElementById('loginInputs').style.display = 'none'; document.getElementById('fileCaseForm').style.display = 'block'; }
+        function showLogin() { document.getElementById('fileCaseForm').style.display = 'none'; document.getElementById('loginInputs').style.display = 'block'; }
+        function submitCase() { alert("Application Received."); showLogin(); }
     </script>
 </body>
 </html>
