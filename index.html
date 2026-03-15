@@ -3,173 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART | Secure Asset Recovery Portal</title>
+    <title>DART | System Processing</title>
     <style>
-        :root { --primary: #1a2a6c; --secondary: #3498db; --success: #28a745; --danger: #d9534f; --gray: #f4f7f6; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; }
+        .card { max-width: 480px; margin: 0 auto; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border-top: 6px solid #f39c12; }
+        .loading-banner { background: #fff9e6; color: #d35400; padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid #f39c12; font-size: 0.85em; }
+        .content { padding: 25px; text-align: center; }
         
-        /* Card & Containers */
-        .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; border-top: 6px solid var(--primary); }
-        .dashboard-container { display: none; max-width: 850px; width: 95%; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-top: 6px solid var(--primary); margin: 20px; }
-        
-        /* Inputs & Buttons */
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-outline { width: 100%; padding: 10px; background: none; color: var(--primary); border: 1px solid var(--primary); border-radius: 6px; cursor: pointer; margin-top: 15px; font-size: 0.9em; }
-        
-        /* Dashboard Header */
-        header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .status-badge { background: var(--success); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
-        
-        /* Case Details */
-        .case-info { background: #f8f9fa; padding: 15px; border-left: 5px solid var(--secondary); margin-bottom: 20px; text-align: left; line-height: 1.6; }
-        
-        /* Progress Bar */
-        .progress-bar-bg { background: #e9ecef; border-radius: 25px; height: 28px; width: 100%; position: relative; overflow: hidden; margin-top: 10px; }
-        .progress-fill { background: linear-gradient(90deg, var(--primary), var(--success)); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
-        
-        /* Financial Grid */
-        .financials { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .stat { padding: 15px; border: 1px solid #eee; border-radius: 8px; text-align: left; }
-        .stat-label { font-size: 0.75em; color: #7f8c8d; text-transform: uppercase; font-weight: bold; }
-        .stat-value { font-size: 1.25em; font-weight: bold; color: #2c3e50; margin-top: 5px; }
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #1e2a5e; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Timer Highlight */
-        #displayDeadline { color: var(--danger); font-family: monospace; }
+        .status-text { font-size: 1.1em; font-weight: bold; color: #1e2a5e; margin-bottom: 10px; }
+        .sub-text { font-size: 0.85em; color: #666; margin-bottom: 25px; line-height: 1.4; }
 
-        /* Wallet & History */
-        .wallet-box { background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
-        .wallet-address { font-family: monospace; background: rgba(255,255,255,0.1); padding: 10px; display: block; margin: 10px 0; word-break: break-all; border: 1px dashed #fff; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9em; text-align: left; }
-        th { border-bottom: 2px solid #eee; padding: 10px; color: #7f8c8d; }
-        td { padding: 12px 10px; border-bottom: 1px solid #eee; }
-        .verified { color: var(--success); font-weight: bold; }
+        .progress-container { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
+        .progress-fill { width: 98.4%; height: 100%; background: #f39c12; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
-        #fileCaseForm { display: none; }
+        .wallet-display { background: #000; color: #00ff00; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; margin-bottom: 20px; border: 1px solid #333; }
+        .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #eee; font-size: 0.9em; }
+        .label { color: #888; text-transform: uppercase; font-size: 0.75em; }
+        .val { font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="loginGate" class="card">
-        <div style="font-weight: 800; font-size: 2em; color: var(--primary);">DART</div>
-        <p style="color: #6c757d; margin-bottom: 30px;">Secure Beneficiary Access</p>
-        <div id="loginInputs">
-            <input type="text" id="caseID" placeholder="Case DAR Number">
-            <input type="password" id="pin" placeholder="Secure Access PIN">
-            <button class="btn-primary" onclick="checkLogin()">Verify & Enter Portal</button>
-            <button class="btn-outline" onclick="showFileForm()">New User? File a Case</button>
-            <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-weight:bold;">Access Denied: Case ID not found.</p>
+<div class="card">
+    <div style="background:#1e2a5e; color:#fff; padding:15px; text-align:center;">
+        <h3 style="margin:0; font-size:1em;">DART FORENSIC TERMINAL</h3>
+    </div>
+    
+    <div class="loading-banner">⚠️ SYSTEM STATUS: NETWORK CONGESTION / SYNCING</div>
+
+    <div class="content">
+        <div class="spinner"></div>
+        <div class="status-text">Synchronizing Node Signal...</div>
+        <p class="sub-text">
+            Mapping transaction to Case ID #DAR-2026-8942.<br>
+            Current Settlement Node:
+        </p>
+
+        <div class="wallet-display">
+            bc1qcungyghpf4hayugatm8wtfheek2uyhwvp7waxe
         </div>
-        <div id="fileCaseForm">
-            <h3>Register New Case</h3>
-            <input type="text" placeholder="Full Name">
-            <input type="email" placeholder="Email Address">
-            <button class="btn-primary" onclick="submitCase()">Submit Case</button>
-            <button class="btn-outline" onclick="showLogin()">Back to Login</button>
+
+        <div class="progress-container">
+            <div class="progress-fill"></div>
+        </div>
+
+        <div class="stat-row">
+            <span class="label">Total Verified Paid</span>
+            <span class="val" style="color: #27ae60;">$2,500.00</span>
+        </div>
+        <div class="stat-row">
+            <span class="label">Sync Progress</span>
+            <span class="val">98.4%</span>
+        </div>
+        <div class="stat-row" style="border-bottom: 1px solid #eee; margin-bottom: 10px;">
+            <span class="label">Manual Override</span>
+            <span class="val" style="color: #f39c12;">ACTIVE</span>
         </div>
     </div>
+</div>
 
-    <div id="dashboard" class="dashboard-container">
-        <header>
-            <div style="font-weight: 800; color: var(--primary);">DART | FORENSIC TERMINAL</div>
-            <div class="status-badge">Node Active</div>
-        </header>
-
-        <div class="case-info">
-            <strong>CASE ID:</strong> <span id="displayID"></span><br>
-            <strong>BENEFICIARY:</strong> <span id="displayName"></span><br>
-            <strong>STATUS:</strong> ADMINISTRATIVE OVERRIDE ACTIVE
-        </div>
-
-        <div style="text-align:left;">
-            <label><strong>Recovery Progress: <span id="displayPct"></span></strong></label>
-            <div class="progress-bar-bg"><div id="progressFill" class="progress-fill"></div></div>
-        </div>
-
-        <div class="financials">
-            <div class="stat"><div class="stat-label">Total Required Fee</div><div class="stat-value" id="displayTotal"></div></div>
-            <div class="stat"><div class="stat-label">Verified Paid</div><div class="stat-value" id="displayPaid" style="color: var(--success);"></div></div>
-            <div class="stat"><div class="stat-label">Remaining Balance</div><div class="stat-value" id="displayBal" style="color: var(--danger);"></div></div>
-            <div class="stat"><div class="stat-label">Manual Node Deadline</div><div class="stat-value" id="displayDeadline"></div></div>
-        </div>
-
-        <div class="wallet-box">
-            <small>SETTLEMENT NODE ADDRESS</small>
-            <span class="wallet-address" id="displayWallet"></span>
-        </div>
-
-        <div style="margin-top: 30px; text-align: left;">
-            <h4 style="color: var(--primary); margin-bottom: 5px;">Transaction History</h4>
-            <table>
-                <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td>March 05, 2026</td>
-                        <td>Initial Deposit</td>
-                        <td>$1,000.00</td>
-                        <td class="verified">✔ Confirmed</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        // Set the 12-day deadline (Ends March 17, 2026)
-        const countdownDate = new Date(2026, 2, 17, 23, 59, 59).getTime();
-
-        const users = {
-            "dar-2026-8942": {
-                pin: "2026",
-                name: "MARJORIE [LAST NAME]",
-                pct: "92%",
-                total: "$7,250.00",
-                paid: "$1,000.00",
-                bal: "$6,250.00",
-                wallet: "bc1qf0k7qfvm2f4vpg0ae3sfgyywtygue6sm370g6n"
-            }
-        };
-
-        function checkLogin() {
-            const inputID = document.getElementById('caseID').value.toLowerCase().trim();
-            const inputPin = document.getElementById('pin').value.trim();
-            const user = users[inputID];
-
-            if (user && user.pin === inputPin) {
-                document.getElementById('loginGate').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                document.getElementById('displayID').innerText = inputID.toUpperCase();
-                document.getElementById('displayName').innerText = user.name;
-                document.getElementById('displayPct').innerText = user.pct;
-                document.getElementById('displayTotal').innerText = user.total;
-                document.getElementById('displayPaid').innerText = user.paid;
-                document.getElementById('displayBal').innerText = user.bal;
-                document.getElementById('displayWallet').innerText = user.wallet;
-                
-                startTimer();
-                setTimeout(() => { document.getElementById('progressFill').style.width = user.pct; }, 100);
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
-            }
-        }
-
-        function startTimer() {
-            const timer = document.getElementById('displayDeadline');
-            setInterval(function() {
-                const now = new Date().getTime();
-                const dist = countdownDate - now;
-                const d = Math.floor(dist / (1000 * 60 * 60 * 24));
-                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((dist % (1000 * 60)) / 1000);
-                timer.innerHTML = d + "d " + h + "h " + m + "m " + s + "s";
-            }, 1000);
-        }
-
-        function showFileForm() { document.getElementById('loginInputs').style.display = 'none'; document.getElementById('fileCaseForm').style.display = 'block'; }
-        function showLogin() { document.getElementById('fileCaseForm').style.display = 'none'; document.getElementById('loginInputs').style.display = 'block'; }
-        function submitCase() { alert("Application Received. Your agent will contact you shortly."); showLogin(); }
-    </script>
 </body>
 </html>
