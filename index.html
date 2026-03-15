@@ -3,68 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART | System Processing</title>
+    <title>DART | Secure Login</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; }
-        .card { max-width: 480px; margin: 0 auto; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border-top: 6px solid #f39c12; }
-        .loading-banner { background: #fff9e6; color: #d35400; padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid #f39c12; font-size: 0.85em; }
-        .content { padding: 25px; text-align: center; }
-        
-        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #1e2a5e; animation: spin 1s linear infinite; margin: 0 auto 20px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .status-text { font-size: 1.1em; font-weight: bold; color: #1e2a5e; margin-bottom: 10px; }
-        .sub-text { font-size: 0.85em; color: #666; margin-bottom: 25px; line-height: 1.4; }
-
-        .progress-container { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
-        .progress-fill { width: 98.4%; height: 100%; background: #f39c12; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-
-        .wallet-display { background: #000; color: #00ff00; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9em; word-break: break-all; margin-bottom: 20px; border: 1px solid #333; }
-        .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #eee; font-size: 0.9em; }
-        .label { color: #888; text-transform: uppercase; font-size: 0.75em; }
-        .val { font-weight: bold; }
+        body { font-family: -apple-system, sans-serif; background: #0f172a; margin: 0; padding: 20px; color: #fff; }
+        .login-box { max-width: 400px; margin: 100px auto; background: #1e293b; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid #334155; }
+        .dashboard { display: none; max-width: 500px; margin: 0 auto; background: #f8fafc; color: #333; border-radius: 15px; overflow: hidden; }
+        .header { background: #1e2a5e; color: #fff; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .stat-card { background: #fff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .label { font-size: 0.7em; color: #64748b; text-transform: uppercase; font-weight: bold; }
+        .value { font-size: 1.2em; font-weight: 800; margin-top: 5px; }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 20px; }
+        .history-table th { text-align: left; color: #64748b; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
+        .history-table td { padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .status-pill { background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+        .wallet-box { background: #000; color: #00ff00; padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px; font-family: monospace; border: 1px solid #22c55e; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; box-sizing: border-box; }
+        button { background: #2563eb; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div style="background:#1e2a5e; color:#fff; padding:15px; text-align:center;">
-        <h3 style="margin:0; font-size:1em;">DART FORENSIC TERMINAL</h3>
+<div id="login-section" class="login-box">
+    <h2 style="margin-top:0;">DART SECURE ACCESS</h2>
+    <p style="font-size: 0.8em; color: #94a3b8;">Enter Case Credentials</p>
+    <input type="text" placeholder="Case ID (e.g. DAR-2026-8942)">
+    <input type="password" placeholder="Access Key">
+    <button onclick="showDashboard()">Secure Login</button>
+</div>
+
+<div id="dashboard-section" class="dashboard">
+    <div class="header">
+        <h3 style="margin:0;">FORENSIC RECOVERY PORTAL</h3>
+        <p style="font-size:0.7em; opacity:0.8; margin-top:5px;">USER: MARJORIE [LAST NAME]</p>
     </div>
     
-    <div class="loading-banner">⚠️ SYSTEM STATUS: NETWORK CONGESTION / SYNCING</div>
+    <div style="background:#fef3c7; color:#92400e; padding:10px; text-align:center; font-size:0.8em; font-weight:bold;">
+        ⚠️ NODE STATUS: AWAITING FINAL AUTHORIZATION SIGNAL
+    </div>
 
     <div class="content">
-        <div class="spinner"></div>
-        <div class="status-text">Synchronizing Node Signal...</div>
-        <p class="sub-text">
-            Mapping transaction to Case ID #DAR-2026-8942.<br>
-            Current Settlement Node:
-        </p>
-
-        <div class="wallet-display">
-            bc1qcungyghpf4hayugatm8wtfheek2uyhwvp7waxe
+        <div class="stat-card">
+            <div class="label">Total Amount Paid</div>
+            <div class="value" style="color: #16a34a;">$2,500.00</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="label">Remaining Balance to Release</div>
+            <div class="value" style="color: #dc2626;">$4,750.00</div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-fill"></div>
-        </div>
+        <p style="font-weight:bold; margin-top:25px; border-bottom: 2px solid #1e2a5e; display:inline-block;">Transaction History</p>
+        <table class="history-table">
+            <thead>
+                <tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2026-03-12</td><td>Initial Credit</td><td>$1,000.00</td><td><span class="status-pill">VERIFIED</span></td></tr>
+                <tr><td>Today</td><td>Stabilization</td><td>$1,500.00</td><td><span class="status-pill">SUCCESS</span></td></tr>
+            </tbody>
+        </table>
 
-        <div class="stat-row">
-            <span class="label">Total Verified Paid</span>
-            <span class="val" style="color: #27ae60;">$2,500.00</span>
-        </div>
-        <div class="stat-row">
-            <span class="label">Sync Progress</span>
-            <span class="val">98.4%</span>
-        </div>
-        <div class="stat-row" style="border-bottom: 1px solid #eee; margin-bottom: 10px;">
-            <span class="label">Manual Override</span>
-            <span class="val" style="color: #f39c12;">ACTIVE</span>
+        <div class="wallet-box">
+            <span style="font-size:0.7em; color:#888; text-transform:uppercase;">Settlement Node Address</span><br>
+            <span style="word-break:break-all; font-size:0.95em;">bc1qcungyghpf4hayugatm8wtfheek2uyhwvp7waxe</span>
         </div>
     </div>
 </div>
+
+<script>
+    function showDashboard() {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = 'block';
+        document.body.style.background = '#f0f2f5';
+    }
+</script>
 
 </body>
 </html>
