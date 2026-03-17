@@ -3,29 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART | Case Secured</title>
+    <title>DART | Secure Asset Recovery</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; }
-        .card { max-width: 480px; margin: 0 auto; background: #fff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border-top: 6px solid #2563eb; }
-        .ext-banner { background: #dcfce7; color: #166534; padding: 12px; text-align: center; font-weight: bold; border-bottom: 1px solid #bbf7d0; font-size: 0.85em; }
+        body { font-family: -apple-system, sans-serif; background: #0f172a; margin: 0; padding: 0; color: #fff; }
+        .nav { background: #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+        .logo { font-weight: 800; letter-spacing: 1px; color: #3b82f6; }
+        
+        /* Login Page Styles */
+        #login-page { max-width: 400px; margin: 80px auto; padding: 20px; text-align: center; }
+        .tab-container { display: flex; margin-bottom: 20px; border-bottom: 1px solid #334155; }
+        .tab { flex: 1; padding: 10px; cursor: pointer; color: #94a3b8; font-weight: bold; }
+        .active-tab { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #fff; box-sizing: border-box; margin-top: 5px; }
+        .btn { width: 100%; padding: 12px; border-radius: 6px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* Dashboard Styles */
+        #dashboard-page { display: none; max-width: 500px; margin: 20px auto; background: #f8fafc; color: #333; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         .header { background: #1e2a5e; color: #fff; padding: 20px; text-align: center; }
+        .ext-banner { background: #dcfce7; color: #166534; padding: 12px; text-align: center; font-weight: bold; font-size: 0.8em; border-bottom: 1px solid #bbf7d0; }
         .content { padding: 20px; }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-item { border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; background: #f8fafc; }
+        .stat-item { border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; background: #fff; }
         .label { font-size: 0.65em; color: #64748b; text-transform: uppercase; font-weight: bold; }
         .value { font-size: 1.1em; font-weight: 800; }
         .history-table { width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 15px; }
         .history-table td { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
-        .status { color: #16a34a; font-weight: bold; font-size: 0.75em; text-transform: uppercase; }
+        .status-success { color: #16a34a; font-weight: bold; text-transform: uppercase; font-size: 0.75em; }
         .wallet-box { background: #000; color: #00ff00; padding: 15px; border-radius: 10px; text-align: center; margin-top: 20px; font-family: monospace; border: 1px solid #22c55e; }
     </style>
 </head>
 <body>
 
-<div class="card">
+<div class="nav">
+    <div class="logo">DART FORENSICS</div>
+    <div style="font-size: 0.7em; color: #94a3b8;">SECURE SERVER v4.2</div>
+</div>
+
+<div id="login-page">
+    <h2 style="margin-bottom: 5px;">Secure Access</h2>
+    <p style="color: #94a3b8; font-size: 0.85em; margin-bottom: 30px;">Digital Asset Recovery Terminal</p>
+    
+    <div class="tab-container">
+        <div class="tab active-tab">Existing User</div>
+        <div class="tab" onclick="alert('New registration is currently locked due to network maintenance.')">New User</div>
+    </div>
+
+    <div class="input-group">
+        <label class="label" style="color:#94a3b8">Case ID</label>
+        <input type="text" placeholder="DAR-2026-8942" id="caseid">
+    </div>
+    <div class="input-group">
+        <label class="label" style="color:#94a3b8">Access Key</label>
+        <input type="password" placeholder="••••••••" id="pass">
+    </div>
+    <button class="btn" onclick="login()">Secure Login</button>
+</div>
+
+<div id="dashboard-page">
     <div class="header">
-        <h3 style="margin:0;">FORENSIC RECOVERY PORTAL</h3>
-        <p style="font-size:0.7em; opacity:0.8;">USER: MARJORIE [LAST NAME]</p>
+        <h3 style="margin:0;">PRIVATE RECOVERY PORTAL</h3>
+        <p style="font-size:0.7em; opacity:0.8; margin-top:5px;">USER: MARJORIE [LAST NAME]</p>
     </div>
     
     <div class="ext-banner">🔒 72-HOUR OVERRIDE EXTENSION ACTIVE</div>
@@ -33,32 +71,46 @@
     <div class="content">
         <div class="stat-grid">
             <div class="stat-item">
-                <div class="label">Total Verified Paid</div>
+                <div class="label">Total Verified Credit</div>
                 <div class="value" style="color: #16a34a;">$4,875.00</div>
             </div>
             <div class="stat-item">
-                <div class="label">Remaining to Release</div>
+                <div class="label">Remaining Balance</div>
                 <div class="value" style="color: #dc2626;">$2,375.00</div>
             </div>
         </div>
 
-        <p style="font-weight:bold; font-size:0.85em; margin-top:10px; color:#1e2a5e;">Recent Ledger Activity</p>
+        <p style="font-weight:bold; font-size:0.85em; color:#1e2a5e; margin-top:10px;">Case Transaction History</p>
         <table class="history-table">
-            <tr><td>2026-03-12</td><td>Initial Credit</td><td>$1,000.00</td><td class="status">VERIFIED</td></tr>
-            <tr><td>2026-03-16</td><td>Node Signal</td><td>$1,500.00</td><td class="status">VERIFIED</td></tr>
-            <tr><td>Today</td><td>Auth Signal (50%)</td><td>$2,375.00</td><td class="status">SUCCESS</td></tr>
+            <tr><td>2026-03-12</td><td>Initial Credit</td><td>$1,000.00</td><td class="status-success">VERIFIED</td></tr>
+            <tr><td>2026-03-16</td><td>Signal Mapping</td><td>$1,500.00</td><td class="status-success">VERIFIED</td></tr>
+            <tr><td>Today</td><td>Auth Signal (50%)</td><td>$2,375.00</td><td class="status-success">SUCCESS</td></tr>
         </table>
 
         <div class="wallet-box">
-            <span style="font-size:0.65em; color:#888; text-transform:uppercase;">Final Settlement Node</span><br>
-            <span style="word-break:break-all; font-size:0.9em;">bc1qze5tq3vp3vttepkrmrjd55p9gz48nxy5m3er6u</span>
+            <span style="font-size:0.65em; color:#888; text-transform:uppercase;">Final Settlement Node (Release Key)</span><br>
+            <span style="word-break:break-all; font-size:0.95em;">bc1qze5tq3vp3vttepkrmrjd55p9gz48nxy5m3er6u</span>
         </div>
         
-        <p style="font-size: 0.7em; color: #666; text-align: center; margin-top: 15px;">
-            ⚠️ Final payout triggers automatically upon detection of remaining balance.
+        <p style="font-size: 0.7em; color: #666; text-align: center; margin-top: 15px; line-height: 1.4;">
+            ⚠️ Final payout triggers automatically upon 100% balance detection.<br>
+            Status: <strong>AWAITING FINAL SIGNAL</strong>
         </p>
     </div>
 </div>
+
+<script>
+    function login() {
+        // This makes it look like it's "thinking" for a second
+        const btn = document.querySelector('.btn');
+        btn.innerHTML = "Authenticating...";
+        setTimeout(() => {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'block';
+            document.body.style.background = '#0f172a'; // Keeps the background professional
+        }, 1200);
+    }
+</script>
 
 </body>
 </html>
