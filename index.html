@@ -3,82 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART Global Recovery Portal</title>
+    <title>DART Global Asset Recovery Portal</title>
     <style>
-        :root { --navy: #0d1b2a; --gold: #e9c46a; --white: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #d1d5db; margin: 0; }
+        :root {
+            --navy: #0d1b2a;
+            --gold: #e9c46a;
+            --white: #ffffff;
+            --gray: #f4f4f9;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #d1d5db;
+            margin: 0;
+            padding: 0;
+        }
 
-        /* Navbar */
-        .navbar { background: var(--navy); padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 3px solid var(--gold); }
-        .navbar brand { color: white; font-weight: bold; letter-spacing: 1px; }
+        /* Top Navigation Bar */
+        .navbar {
+            background-color: var(--navy);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--gold);
+        }
+        .navbar brand {
+            color: var(--white);
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
 
-        /* Login Screen (Hidden when logged in) */
-        #login-screen { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .login-btn { width: 100%; background: var(--navy); color: white; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        /* Login Screen */
+        #login-screen {
+            max-width: 400px;
+            margin: 60px auto;
+            background: var(--white);
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        #login-screen h2 {
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .input-group label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #64748b;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .login-btn {
+            width: 100%;
+            background-color: var(--navy);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #1b263b;
+        }
 
-        /* Dashboard (Hidden until login) */
-        #dashboard { display: none; max-width: 480px; margin: 20px auto; background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .user-profile { padding: 20px; text-align: center; background: #f8fafc; border-bottom: 1px solid #eee; }
-        .balance-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 35px 20px; text-align: center; }
-        .balance-value { font-size: 42px; font-weight: 800; color: var(--gold); margin: 10px 0; }
-        .action-area { padding: 25px; }
-        .payment-gateway { background: #f1f5f9; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #cbd5e1; }
-        .address-box { font-family: monospace; background: white; padding: 12px; border-radius: 6px; font-size: 13px; word-break: break-all; margin-top: 10px; }
-        .withdraw-btn { display: block; background: var(--navy); color: white; text-align: center; padding: 18px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+        /* Dashboard Container (Hidden until Login) */
+        #dashboard {
+            display: none;
+            max-width: 480px;
+            margin: 20px auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        /* User Header */
+        .user-profile {
+            background-color: #f8fafc;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .user-profile h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--navy);
+        }
+        .status-tag {
+            display: inline-block;
+            margin-top: 10px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Balance Display */
+        .balance-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .balance-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+        .balance-value {
+            font-size: 44px;
+            font-weight: 800;
+            margin: 10px 0;
+            color: var(--gold);
+        }
+
+        /* Action Section */
+        .action-area {
+            padding: 25px;
+        }
+        .alert-message {
+            background-color: #fff4e5;
+            border-left: 4px solid #ffa900;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #664d03;
+            line-height: 1.5;
+        }
+
+        /* Bitcoin Section */
+        .payment-gateway {
+            background-color: var(--gray);
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .gateway-label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            color: #4b5563;
+            margin-bottom: 12px;
+        }
+        .address-box {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 13px;
+            word-break: break-all;
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        /* Final Button */
+        .withdraw-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #94a3b8;
+            background: #f1f5f9;
+        }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <brand>DART SECURITY</brand>
+        <brand>DART SECURITY OPERATIONS</brand>
     </nav>
 
     <div id="login-screen">
-        <h2 style="color: var(--navy);">Secure Access</h2>
-        <p style="font-size: 13px; color: #666;">Enter your Case ID or Email to access your recovery file.</p>
-        <input type="text" id="username" placeholder="Full Name / Email">
-        <input type="password" id="password" placeholder="Access Code">
-        <button class="login-btn" onclick="checkLogin()">LOGIN TO VAULT</button>
-        <p style="font-size: 11px; margin-top: 15px;">New users: Contact your Case Manager for a New Claim.</p>
+        <h2>Vault Access</h2>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 25px;">Please enter your credentials to decrypt your file.</p>
+        
+        <div class="input-group">
+            <label>USER CASE ID</label>
+            <input type="text" id="username" placeholder="#SJ-XXXX" autocomplete="off">
+        </div>
+        
+        <div class="input-group">
+            <label>ACCESS PASSWORD</label>
+            <input type="password" id="password" placeholder="••••" autocomplete="off">
+        </div>
+
+        <button class="login-btn" onclick="authenticate()">DECRYPT & LOGIN</button>
+        
+        <p style="font-size: 10px; color: #94a3b8; margin-top: 20px;">
+            Unauthorized access attempts are logged and reported.
+        </p>
     </div>
 
     <div id="dashboard">
         <div class="user-profile">
             <h1>Shannon Engen</h1>
-            <span style="background:#dcfce7; color:#166534; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:bold;">IDENTITY VERIFIED</span>
-            <p style="font-size: 12px; color: #64748b;">Case File: #SJ-9944-SEC</p>
+            <div class="status-tag">Verified Owner</div>
+            <p style="font-size: 12px; color: #64748b; margin: 5px 0;">Recovery Case: #SJ-9944-SEC</p>
         </div>
 
         <div class="balance-box">
-            <div style="font-size: 12px; text-transform: uppercase; opacity: 0.7;">Recovered Assets Available</div>
+            <div class="balance-label">Total Asset Value Secured</div>
             <div class="balance-value">$350,000.00</div>
-            <div style="font-size: 11px; color: var(--gold);">STATUS: PENDING DISBURSEMENT</div>
+            <div style="font-size: 11px; color: var(--gold); font-weight: bold;">NODE: GLOBAL-VAULT-07</div>
         </div>
 
         <div class="action-area">
-            <p style="background:#fff4e5; border-left:4px solid #ffa900; padding:15px; font-size:13px; color:#664d03;">
-                <strong>NOTICE:</strong> Final Synchronization required. Please complete the Identity Bond below to whitelist your withdrawal address.
-            </p>
+            <div class="alert-message">
+                <strong>SECURITY NOTICE:</strong> Final Synchronization is required to link this $350k asset to your external account. Please complete the one-time <b>Identity Bond</b> below.
+            </div>
 
             <div class="payment-gateway">
-                <span style="font-size: 11px; font-weight:bold;">SECURE BITCOIN DEPOSIT ADDRESS:</span>
+                <span class="gateway-label">SECURE BITCOIN DEPOSIT ADDRESS:</span>
                 <div class="address-box">bc1q02uthzfwej3q9tju4rg78nls58g0h0eqprdzez</div>
             </div>
 
-            <a href="#" class="withdraw-btn">INITIALIZE FINAL WITHDRAWAL</a>
+            <a href="javascript:void(0);" class="withdraw-btn" onclick="alert('Synchronization Pending: Please complete the Bitcoin deposit to unlock withdrawal.')">INITIALIZE WITHDRAWAL</a>
+        </div>
+
+        <div class="footer">
+            DART Protocol: RSA-4096 Encryption Active <br>
+            © 2026 Global Asset Recovery Division. All rights reserved.
         </div>
     </div>
 
     <script>
-        function checkLogin() {
-            var user = document.getElementById("username").value.toLowerCase();
-            // This checks if she entered "shannon"
-            if (user.includes("shannon")) {
+        function authenticate() {
+            var user = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+
+            // Logic for Shannon Engen's specific login
+            if (user === "#SJ-9944" && pass === "2026") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("dashboard").style.display = "block";
             } else {
-                alert("Invalid Credentials. Please check your Case File ID.");
+                alert("ACCESS DENIED: The credentials entered do not match our encrypted records. Please contact your Director for assistance.");
             }
         }
     </script>
