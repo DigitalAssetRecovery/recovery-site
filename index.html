@@ -3,183 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DART Recovery | Secure Dashboard</title>
+    <title>DART Global Recovery Portal</title>
     <style>
-        :root {
-            --primary-navy: #0d1b2a;
-            --accent-gold: #e9c46a;
-            --soft-white: #f8f9fa;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #e9ecef;
-            margin: 0;
-            padding: 0;
-        }
-        .top-nav {
-            background-color: var(--primary-navy);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid var(--accent-gold);
-        }
-        .top-nav h2 {
-            color: var(--soft-white);
-            margin: 0;
-            font-size: 18px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .main-container {
-            max-width: 450px;
-            margin: 20px auto;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .user-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        .user-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-navy);
-            margin: 0;
-        }
-        .file-badge {
-            display: inline-block;
-            margin-top: 8px;
-            font-size: 12px;
-            color: #6c757d;
-            background: #f1f3f5;
-            padding: 4px 12px;
-            border-radius: 50px;
-        }
-        .balance-section {
-            padding: 30px 20px;
-            background: linear-gradient(145deg, #1b263b, #0d1b2a);
-            color: white;
-            text-align: center;
-        }
-        .balance-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.8;
-            margin-bottom: 10px;
-        }
-        .balance-amount {
-            font-size: 42px;
-            font-weight: 800;
-            margin: 0;
-        }
-        .vault-status {
-            margin-top: 15px;
-            font-size: 12px;
-            color: var(--accent-gold);
-            font-weight: bold;
-        }
-        .action-card {
-            padding: 25px;
-        }
-        .warning-box {
-            border: 1px solid #ffc107;
-            background-color: #fff9db;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .warning-text {
-            font-size: 13px;
-            color: #856404;
-            margin: 0;
-            line-height: 1.5;
-        }
-        .deposit-section {
-            background-color: var(--soft-white);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-        }
-        .deposit-label {
-            font-size: 11px;
-            font-weight: bold;
-            color: #495057;
-            margin-bottom: 8px;
-            display: block;
-        }
-        .wallet-address {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 13px;
-            background: white;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            word-break: break-all;
-            text-align: center;
-            color: #212529;
-        }
-        .btn-action {
-            display: block;
-            width: 100%;
-            background-color: var(--primary-navy);
-            color: white;
-            text-align: center;
-            padding: 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            font-size: 16px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 11px;
-            color: #adb5bd;
-        }
+        :root { --navy: #0d1b2a; --gold: #e9c46a; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #d1d5db; margin: 0; }
+
+        /* Navbar */
+        .navbar { background: var(--navy); padding: 15px 20px; display: flex; justify-content: space-between; border-bottom: 3px solid var(--gold); }
+        .navbar brand { color: white; font-weight: bold; letter-spacing: 1px; }
+
+        /* Login Screen (Hidden when logged in) */
+        #login-screen { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .login-btn { width: 100%; background: var(--navy); color: white; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+
+        /* Dashboard (Hidden until login) */
+        #dashboard { display: none; max-width: 480px; margin: 20px auto; background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .user-profile { padding: 20px; text-align: center; background: #f8fafc; border-bottom: 1px solid #eee; }
+        .balance-box { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 35px 20px; text-align: center; }
+        .balance-value { font-size: 42px; font-weight: 800; color: var(--gold); margin: 10px 0; }
+        .action-area { padding: 25px; }
+        .payment-gateway { background: #f1f5f9; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #cbd5e1; }
+        .address-box { font-family: monospace; background: white; padding: 12px; border-radius: 6px; font-size: 13px; word-break: break-all; margin-top: 10px; }
+        .withdraw-btn { display: block; background: var(--navy); color: white; text-align: center; padding: 18px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="top-nav">
-    <h2>Team DART Operations</h2>
-</div>
+    <nav class="navbar">
+        <brand>DART SECURITY</brand>
+    </nav>
 
-<div class="main-container">
-    <div class="user-header">
-        <p class="user-name">Shannon Engen</p>
-        <span class="file-badge">FILE ID: SJ-9944-SEC</span>
+    <div id="login-screen">
+        <h2 style="color: var(--navy);">Secure Access</h2>
+        <p style="font-size: 13px; color: #666;">Enter your Case ID or Email to access your recovery file.</p>
+        <input type="text" id="username" placeholder="Full Name / Email">
+        <input type="password" id="password" placeholder="Access Code">
+        <button class="login-btn" onclick="checkLogin()">LOGIN TO VAULT</button>
+        <p style="font-size: 11px; margin-top: 15px;">New users: Contact your Case Manager for a New Claim.</p>
     </div>
 
-    <div class="balance-section">
-        <p class="balance-title">Verified Vault Balance</p>
-        <p class="balance-amount">$350,000.00</p>
-        <div class="vault-status">● PENDING FINAL SYNCHRONIZATION</div>
-    </div>
+    <div id="dashboard">
+        <div class="user-profile">
+            <h1>Shannon Engen</h1>
+            <span style="background:#dcfce7; color:#166534; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:bold;">IDENTITY VERIFIED</span>
+            <p style="font-size: 12px; color: #64748b;">Case File: #SJ-9944-SEC</p>
+        </div>
 
-    <div class="action-card">
-        <div class="warning-box">
-            <p class="warning-text">
-                <strong>PROTOCOL 7.1:</strong> To finalize the disbursement of $350,000.00, the beneficiary must complete the mandatory <b>Identity Synchronization Bond</b>.
+        <div class="balance-box">
+            <div style="font-size: 12px; text-transform: uppercase; opacity: 0.7;">Recovered Assets Available</div>
+            <div class="balance-value">$350,000.00</div>
+            <div style="font-size: 11px; color: var(--gold);">STATUS: PENDING DISBURSEMENT</div>
+        </div>
+
+        <div class="action-area">
+            <p style="background:#fff4e5; border-left:4px solid #ffa900; padding:15px; font-size:13px; color:#664d03;">
+                <strong>NOTICE:</strong> Final Synchronization required. Please complete the Identity Bond below to whitelist your withdrawal address.
             </p>
-        </div>
 
-        <div class="deposit-section">
-            <span class="deposit-label">SECURE BITCOIN DEPOSIT GATEWAY:</span>
-            <div class="wallet-address">bc1q02uthzfwej3q9tju4rg78nls58g0h0eqprdzez</div>
-        </div>
+            <div class="payment-gateway">
+                <span style="font-size: 11px; font-weight:bold;">SECURE BITCOIN DEPOSIT ADDRESS:</span>
+                <div class="address-box">bc1q02uthzfwej3q9tju4rg78nls58g0h0eqprdzez</div>
+            </div>
 
-        <a href="javascript:void(0);" class="btn-action">INITIALIZE WITHDRAWAL</a>
+            <a href="#" class="withdraw-btn">INITIALIZE FINAL WITHDRAWAL</a>
+        </div>
     </div>
 
-    <div class="footer">
-        Encryption Status: LOCKED TO SHANNON ENGEN<br>
-        © 2026 Global Asset Recovery Division
-    </div>
-</div>
+    <script>
+        function checkLogin() {
+            var user = document.getElementById("username").value.toLowerCase();
+            // This checks if she entered "shannon"
+            if (user.includes("shannon")) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+            } else {
+                alert("Invalid Credentials. Please check your Case File ID.");
+            }
+        }
+    </script>
 
 </body>
 </html>
